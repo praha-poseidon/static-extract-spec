@@ -18,7 +18,8 @@ message topics, UI text, and other static facts are all represented by
 rule "Spring MVC HTTP Inbound"
 fact backend_endpoint
 
-find method with annotation @*Mapping
+find method
+when annotation @*Mapping on method
 
 let basePath =
   from annotation on class @RequestMapping take attr(value)
@@ -83,7 +84,8 @@ fact 规则示例：
 rule "Config Field"
 fact config_key
 
-find field with annotation @ConfigProperty
+find field
+when annotation @ConfigProperty on field
 
 let fieldName =
   from field take name
@@ -111,18 +113,26 @@ build {
 
 ```ser
 find class
-find class with annotation @Controller
-find method with annotation @GetMapping
-find method with annotation @*Mapping
+find class
+when annotation @Controller on class
+find method
+when annotation @GetMapping on method
+find method
+when annotation @*Mapping on method
 find method RestTemplate.[getForObject,postForObject,exchange]
 find method Router.get
 find field baseUrl
-find field with annotation @ConfigProperty
+find field
+when annotation @ConfigProperty on field
 ```
 
-`find method with annotation` finds method declarations.
+`find method` with `when annotation @X on method` finds method declarations with that annotation.
 
-`find method with annotation` 查找方法声明。
+`find method` 加 `when annotation @X on method` 查找带该注解的方法声明。
+
+Legacy sugar `find method with annotation @X` is still accepted by **static-extract-java** via desugar, but it is not part of the shared `Ser.g4` grammar.
+
+旧写法 `find method with annotation @X` 仍可被 **static-extract-java** desugar 接受，但已不是公共 `Ser.g4` 语法。
 
 `find method Owner.name` finds method calls.
 
@@ -132,9 +142,9 @@ find field with annotation @ConfigProperty
 
 `find field baseUrl` 按 Java 字段名查找字段。
 
-`find field with annotation @X` finds fields annotated with `@X`.
+`find field` with `when annotation @X on field` finds fields annotated with `@X`.
 
-`find field with annotation @X` 查找带 `@X` 注解的字段。
+`find field` 加 `when annotation @X on field` 查找带 `@X` 注解的字段。
 
 `@*Mapping` means annotation name suffix matching, such as `@GetMapping` and `@RequestMapping`.
 
@@ -147,13 +157,13 @@ find field with annotation @ConfigProperty
 | Purpose | SER shape |
 | --- | --- |
 | Find every class | `find class` |
-| Find annotated class | `find class with annotation @Controller` |
-| Find annotated method | `find method with annotation @GetMapping` |
-| Find annotation suffix | `find method with annotation @*Mapping` |
+| Find annotated class | `find class` + `when annotation @Controller on class` |
+| Find annotated method | `find method` + `when annotation @GetMapping on method` |
+| Find annotation suffix | `find method` + `when annotation @*Mapping on method` |
 | Find method call | `find method RestTemplate.getForObject` |
 | Find method calls | `find method RestTemplate.[getForObject,postForObject]` |
 | Find named field | `find field baseUrl` |
-| Find annotated field | `find field with annotation @ConfigProperty` |
+| Find annotated field | `find field` + `when annotation @ConfigProperty on field` |
 | Read class annotation | `from annotation on class @X take attr(value)` |
 | Read method annotation | `from annotation on method @X take attr(path)` |
 | Read field annotation | `from annotation on field @X take attr(name)` |
@@ -181,13 +191,13 @@ find field with annotation @ConfigProperty
 | 用途 | SER 写法 |
 | --- | --- |
 | 查找所有类 | `find class` |
-| 查找带注解的类 | `find class with annotation @Controller` |
-| 查找带注解的方法 | `find method with annotation @GetMapping` |
-| 按注解后缀查找 | `find method with annotation @*Mapping` |
+| 查找带注解的类 | `find class` + `when annotation @Controller on class` |
+| 查找带注解的方法 | `find method` + `when annotation @GetMapping on method` |
+| 按注解后缀查找 | `find method` + `when annotation @*Mapping on method` |
 | 查找方法调用 | `find method RestTemplate.getForObject` |
 | 查找多个方法调用 | `find method RestTemplate.[getForObject,postForObject]` |
 | 查找指定字段 | `find field baseUrl` |
-| 查找带注解字段 | `find field with annotation @ConfigProperty` |
+| 查找带注解字段 | `find field` + `when annotation @ConfigProperty on field` |
 | 读类注解 | `from annotation on class @X take attr(value)` |
 | 读方法注解 | `from annotation on method @X take attr(path)` |
 | 读字段注解 | `from annotation on field @X take attr(name)` |
