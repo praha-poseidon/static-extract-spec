@@ -42,6 +42,17 @@ let name =
 build {
   field: <expr> | normalize <ident> | …
 }
+
+# optional value-trace for this rule's find only
+trace {
+  from <target>
+  when <free-atoms…>
+  let name =
+    from <free-atoms…> take <free-atoms…>
+  build { … }
+}
 ```
+
+No standalone `trace "name"` files. Patches are only the optional `trace { }` block.
 
 There is no language name (Java, React, …) in this contract.

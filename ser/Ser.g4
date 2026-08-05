@@ -2,20 +2,19 @@
 // Language words after find/from/when/take are free atoms; extractors interpret them.
 grammar Ser;
 
+// One rule file = one find + optional value-trace block for that find.
+// No standalone trace files: patches live in the same .ser as the rule.
 ruleFile
-    : ruleDecl ruleTargetDecl findDecl whenDecl* letDecl* buildDecl EOF
-    ;
-
-traceFile
-    : traceDecl traceEntry* EOF
+    : ruleDecl ruleTargetDecl findDecl whenDecl* letDecl* buildDecl embeddedTrace? EOF
     ;
 
 ruleDecl
     : RULE STRING
     ;
 
-traceDecl
-    : TRACE STRING
+// Optional value-trace patches for take-value (same file, after build).
+embeddedTrace
+    : TRACE LBRACE traceEntry* RBRACE
     ;
 
 ruleTargetDecl

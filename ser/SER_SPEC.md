@@ -13,10 +13,10 @@ token sequences for the extractor.
 
 ## File types
 
-### Extraction rule
+### Extraction rule (only SER file shape)
 
 ```text
-ruleDecl ruleTargetDecl findDecl whenDecl* letDecl* buildDecl EOF
+ruleDecl ruleTargetDecl findDecl whenDecl* letDecl* buildDecl embeddedTrace? EOF
 ```
 
 ```ser
@@ -35,21 +35,30 @@ let name =
 build {
   field: expression
 }
+
+# Optional: value-trace patches for this rule's find (take value stuck cases)
+trace {
+  from <target>
+  when <free-atoms>
+  let name =
+    from <free-atoms> take <free-atoms>
+  build {
+    field: expression
+  }
+}
 ```
 
 `endpoint LABEL DIRECTION` MAY be used instead of `fact` for older rule headers.
 New rules SHOULD use `fact`.
 
-### Trace rule
+There is **no** standalone `trace "..."` file. Value-trace entries MUST live in the
+same `.ser` as the extraction rule, in an optional `trace { … }` block after
+`build`. Each file has one `find`; the block is the escape hatch for that find.
+
+Each `traceEntry` inside the block is:
 
 ```text
-traceDecl traceEntry* EOF
-```
-
-Each `traceEntry` is:
-
-```text
-FROM free-atoms whenDecl* letDecl* buildDecl
+FROM freeAtom whenDecl* letDecl* buildDecl
 ```
 
 ## Shared structure constructs

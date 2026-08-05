@@ -22,12 +22,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "traceRules": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
     }
   }
 }
