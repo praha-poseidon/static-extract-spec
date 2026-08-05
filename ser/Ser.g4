@@ -4,8 +4,12 @@ grammar Ser;
 
 // One rule file = one find + optional value-trace block for that find.
 // No standalone trace files: patches live in the same .ser as the rule.
+//
+// Filter keywords (different roles — not aliases):
+//   where = scope / enclosure (class, package, file, annotation on class)
+//   when  = conditions on the find anchor itself (method/field/call attributes)
 ruleFile
-    : ruleDecl ruleTargetDecl findDecl whenDecl* letDecl* buildDecl embeddedTrace? EOF
+    : ruleDecl ruleTargetDecl findDecl whereDecl* whenDecl* letDecl* buildDecl embeddedTrace? EOF
     ;
 
 ruleDecl
@@ -27,11 +31,16 @@ findDecl
     : FIND freeAtom+
     ;
 
-// when / where if <condition>  |  when / where <free…>
-// "where" is an alias of "when" (filter only; does not identify the rule).
+// where = scope: where the match lives (enclosing type/package/file/…)
+whereDecl
+    : WHERE IF conditionExpr
+    | WHERE freeAtom+
+    ;
+
+// when = anchor predicates: when the found element itself matches
 whenDecl
-    : (WHEN | WHERE) IF conditionExpr
-    | (WHEN | WHERE) freeAtom+
+    : WHEN IF conditionExpr
+    | WHEN freeAtom+
     ;
 
 // Optional pipeline after let sources (same steps as build fields).

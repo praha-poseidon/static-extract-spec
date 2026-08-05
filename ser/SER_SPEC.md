@@ -25,10 +25,13 @@ fact fact_type
 
 find <free-atoms>
 
-when <free-atoms>
-where <free-atoms>
+# scope (where it lives)
+where class name UserController
+where annotation @RestController on class
+
+# anchor predicates (the element itself)
+when annotation @PostMapping on method
 when if <condition>
-where if <condition>
 
 let name =
   from <free-atoms> take <free-atoms>

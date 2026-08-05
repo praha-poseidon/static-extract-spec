@@ -6,12 +6,20 @@ language element means.
 ## Structure keywords
 
 ```text
-rule  fact  endpoint  find  when  where  let  from  take  fallback  map  build  trace
+rule  fact  endpoint  find  where  when  let  from  take  fallback  map  build  trace
 if  and  or  not  exists  matches  contains  in
 concat  normalize  regex  replace  group
 ```
 
-`where` is an alias of `when` (filters anchors; does not replace `find`).
+Filter keywords are **not** the same:
+
+| keyword | role |
+|---------|------|
+| **find** | what shape to select |
+| **where** | **scope** — where it lives (enclosing class / class annotation / package / file) |
+| **when** | **anchor** — predicates on the selected element (method annotation, call owner, field type, …) |
+
+Order in a rule file: `find` → `where*` → `when*` → `let*` → `build` → optional `trace { }`.
 
 Plus punctuation and `when if` condition operators.
 
