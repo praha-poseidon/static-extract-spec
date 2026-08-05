@@ -57,8 +57,8 @@ Repos live in:
 
 | Step | Repo | What | Done when |
 |---|---|---|---|
-| **D1** | spec | Rewrite `examples/java/*` to canonical (non-sugar) form | Examples still pass via java CLI |
-| **D2** | java | Rewrite builtin `.ser` to canonical form (desugar becomes back-compat only) | Builtin rules use generic find/from |
+| **D1** | spec | Rewrite `examples/java/*` to canonical (non-sugar) form | Examples still pass via java CLI | **done** |
+| **D2** | java | Rewrite builtin `.ser` to canonical form (desugar becomes back-compat only) | spring-mvc uses find+when; rest-template still F4 | **done** |
 | **D3** | spec | Update `SER_SPEC.md` / `SER_RULES.md`: core vs Java dialect appendix | Docs match g4 |
 | **D4** | java | Mark desugar as compatibility layer; log/metrics optional | Documented |
 
@@ -95,7 +95,8 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - **A4** js generic find: **done**
 - Phase B desugar safety net: **done** (B1–B5)
 - Phase C F1–F3 g4 removal: **done** (C3/C4)
-- Next: **D1** rewrite examples to canonical form (optional) or hold on from-annotation sugar
+- Phase D1/D2 canonical authoring: **done**
+- Next: **D3** docs (SER_RULES) or hold on from-annotation sugar
 
 ---
 
