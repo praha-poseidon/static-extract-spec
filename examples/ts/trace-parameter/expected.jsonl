@@ -1,1 +1,0 @@
-{"rule":"Fetch Parameter Trace","factType":"frontend_api_call","classifiers":{},"fields":{"client":"fetch","path":"/api/parameter-users"},"projectFilePath":"input/App.ts","absoluteFilePath":"${EXAMPLE_DIR}/input/App.ts","startLine":2,"endLine":2,"enclosingSymbol":"loadUsers"}

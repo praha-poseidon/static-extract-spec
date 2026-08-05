@@ -12,7 +12,7 @@
     },
     "extractor": {
       "type": "string",
-      "description": "Extractor id such as java-jdt, ts-tsmorph, or vue-sfc."
+      "description": "Extractor id such as extractor-id strings defined by each implementation."
     },
     "version": {
       "type": "string"

@@ -1,27 +1,15 @@
-# Extractor CLI Contract
+# Extractor CLI contract
 
-Each language extractor owns its own CLI. A Java CLI must not shell out to a
-TypeScript extractor, and a TypeScript CLI must not depend on a Java jar.
+Each language extractor owns its CLI binary. This document only defines the
+shared **command shape**.
 
 ## Naming
 
-Extractor CLIs use this shape:
-
 ```text
-static-extract-<extractor>
-```
-
-Examples:
-
-```text
-static-extract-java
-static-extract-ts
-static-extract-vue
+static-extract-<extractor-id>
 ```
 
 ## Commands
-
-All extractor CLIs should expose these commands:
 
 ```text
 init
@@ -30,36 +18,20 @@ diagnose
 run
 ```
 
-## Output
-
-`run` writes newline-delimited JSON. Each line must validate against
-`schema/extracted-fact.schema.json` in this repository.
-
-`try` may return a command report, but its `results` field must contain the same
-`ExtractedFact` shape.
-
-## Required Arguments
-
-Each extractor can choose extractor-specific input flags, but these concepts must
-exist:
+## Shared arguments (concepts)
 
 ```text
 --project        project root
---source         source file or source directory
+--source         source file or directory
 --rule           SER rule file
 --rule-dir       SER rule directory
 --out            JSONL output file
 ```
 
-Extractor-specific examples:
+Extractor-specific flags (classpath, tsconfig, aliases, …) are defined by each
+extractor, not by this package.
 
-```text
-static-extract-java --classes target/classes --dependency target/dependency
-static-extract-ts --tsconfig tsconfig.json
-static-extract-vue --alias @=src
-```
+## Output
 
-The extractor-specific flags affect extraction accuracy, not the output contract.
-
-Extractors MAY keep older aliases such as `--rules` or `--file`, but
-documentation and skills SHOULD prefer the shared names above.
+`run` writes newline-delimited JSON. Each line MUST validate against
+`schema/extracted-fact.schema.json` in this repository.

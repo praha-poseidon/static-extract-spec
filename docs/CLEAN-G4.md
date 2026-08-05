@@ -1,8 +1,9 @@
-# SER public grammar = DSL skeleton only
+# SER = DSL skeleton only
 
-`Ser.g4` defines **structure**, not language vocabulary.
+`Ser.g4` defines **structure keywords**. It does not define what any programming
+language element means.
 
-## Structure keywords (grammar cares)
+## Structure keywords
 
 ```text
 rule  fact  endpoint  find  when  let  from  take  fallback  map  build  trace
@@ -12,44 +13,35 @@ concat  normalize  regex  replace  group
 
 Plus punctuation and `when if` condition operators.
 
-(`default` is **not** a structure keyword for default values — use `fallback`.
-The word `default` may appear as a free atom, e.g. `from export default`.)
+`default` is not a structure keyword for default values — use `fallback`.
+The word `default` may appear as a free atom (extractor vocabulary).
 
-## Free content (grammar does **not** interpret)
+## Free atoms
 
-Everything after `find` / `when` / `from` / `take` (except structure keywords) is a
-sequence of **free atoms**. Meaning is defined by each extractor’s **vocabulary**.
+After `find` / `when` / `from` / `take`, tokens are **free atoms** (identifiers,
+`@Name`, `a.b`, `[a,b]`, `argument[0]`, …).
 
-Examples of free atoms (grammar treats them as opaque text):
+The shared grammar only tokenizes them. **Each extractor** decides which atoms
+it understands (its vocabulary).
 
-```text
-method  class  field  call  jsx  prop  annotation  decorator  argument
-@GetMapping  @*Mapping  RestTemplate.getForObject  Owner.[a,b]
-on  name  value  attr  default  …
-```
-
-## Shape
+## Shape (structure only)
 
 ```ser
 rule "Name"
-fact some_fact
+fact some_fact_type
 
-find method
-when annotation @RouteGet on method
+find <free-atoms…>
 
-let path =
-  from annotation @RouteGet on method take attr(value)
-  fallback ""
+when <free-atoms…>
+when if <condition>
+
+let name =
+  from <free-atoms…> take <free-atoms…>
+  fallback <free-atom>
 
 build {
-  path: path
+  field: <expr> | normalize <ident> | …
 }
 ```
 
-- `find` / `when` / `from` / `take` / `build` / `fallback` → structure  
-- `method` / `annotation` / `@RouteGet` / `on` / `attr` → free atoms (Java vocabulary)  
-- `find jsx button` → same structure, JS vocabulary  
-
-## No compatibility layer
-
-No compatibility rewrites. Wrong structure → parse error. Unknown vocabulary → extractor error.
+There is no language name (Java, React, …) in this contract.

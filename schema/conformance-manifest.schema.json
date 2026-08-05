@@ -24,7 +24,7 @@
         "properties": {
           "path": {
             "type": "string",
-            "description": "Path under spec/examples, such as ts/api-call or java/annotation-fact."
+            "description": "Path to a fixture directory owned by the extractor repository."
           },
           "status": {
             "type": "string",

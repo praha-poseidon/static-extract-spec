@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://static-extract.dev/schema/extractor-vocabulary.schema.json",
   "title": "Static Extract Extractor Vocabulary",
-  "description": "Machine-readable free-atom vocabulary for one extractor. Shared Ser.g4 only defines structure keywords; vocabulary names are strings such as method, jsx, call, annotation.",
+  "description": "Machine-readable free-atom vocabulary for one extractor. Shared Ser.g4 only defines structure keywords; vocabulary names are strings such as opaque vocabulary strings.",
   "type": "object",
   "additionalProperties": false,
   "required": ["extractor", "version", "language", "find", "source", "take"],
@@ -10,7 +10,7 @@
     "extractor": {
       "type": "string",
       "minLength": 1,
-      "description": "Stable extractor id such as java-jdt, ts, or python-libcst."
+      "description": "Stable extractor id such as stable extractor ids defined by each implementation."
     },
     "version": {
       "type": "string",

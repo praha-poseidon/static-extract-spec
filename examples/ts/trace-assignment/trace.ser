@@ -1,9 +1,0 @@
-trace "TS Assignment Trace"
-
-from assignment
-when assignment field url
-
-build {
-  namespace: "config"
-  key: "assignedUrl"
-}

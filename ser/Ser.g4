@@ -23,7 +23,7 @@ ruleTargetDecl
     | FACT freeAtom
     ;
 
-// find <free…>   e.g. find method | find call Owner.name | find jsx button
+// find <free atoms…>  (vocabulary; not interpreted by this grammar)
 findDecl
     : FIND freeAtom+
     ;
