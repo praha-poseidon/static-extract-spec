@@ -6,20 +6,21 @@
 rule "Spring MVC HTTP Inbound"
 fact backend_endpoint
 
-find method with annotation @*Mapping
+find method
+when annotation @*Mapping on method
 
 let basePath =
-  from annotation on class @RequestMapping take attr(value)
-  from annotation on class @RequestMapping take attr(path)
+  from annotation @RequestMapping on class take attr(value)
+  from annotation @RequestMapping on class take attr(path)
   default ""
 
 let methodPath =
-  from annotation on method @*Mapping take attr(value)
-  from annotation on method @*Mapping take attr(path)
+  from annotation @*Mapping on method take attr(value)
+  from annotation @*Mapping on method take attr(path)
   default ""
 
 let httpMethod =
-  from annotation on method @*Mapping take name
+  from annotation @*Mapping on method take name
   map {
     GetMapping: GET
     PostMapping: POST
@@ -49,9 +50,12 @@ New rules should use `fact`.
 ## Common Find Clauses
 
 ```text
-find class with annotation @Controller
-find method with annotation @GetMapping
-find field with annotation @Value
+find class
+when annotation @Controller on class
+find method
+when annotation @GetMapping on method
+find field
+when annotation @Value on field
 find call with method RestTemplate.getForObject
 find call with method router.get
 ```
@@ -59,7 +63,8 @@ find call with method router.get
 Use wildcards for annotation families:
 
 ```text
-find method with annotation @*Mapping
+find method
+when annotation @*Mapping on method
 ```
 
 ## Common Sources
@@ -67,9 +72,9 @@ find method with annotation @*Mapping
 Annotation attributes:
 
 ```text
-from annotation on method @GetMapping take attr(value)
-from annotation on class @RequestMapping take attr(path)
-from annotation on method @*Mapping take name
+from annotation @GetMapping on method take attr(value)
+from annotation @RequestMapping on class take attr(path)
+from annotation @*Mapping on method take name
 ```
 
 Call arguments:
@@ -112,7 +117,7 @@ Map names to output values:
 
 ```text
 let httpMethod =
-  from annotation on method @*Mapping take name
+  from annotation @*Mapping on method take name
   map {
     GetMapping: GET
     PostMapping: POST
@@ -133,7 +138,7 @@ external config from field
 when annotation @Value on field
 
 let rawValue =
-  from annotation on field @Value take attr(value)
+  from annotation @Value on field take attr(value)
 
 build {
   namespace: "config"

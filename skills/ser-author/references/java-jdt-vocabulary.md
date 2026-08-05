@@ -5,20 +5,22 @@ Source of truth: `java/jdt/vocabulary.md`.
 Common supported examples:
 
 ```ser
-find method with annotation @*Mapping
-from annotation on method @*Mapping take attr(value)
-from annotation on class @RequestMapping take attr(value)
+find method
+when annotation @*Mapping on method
+from annotation @*Mapping on method take attr(value)
+from annotation @RequestMapping on class take attr(value)
 ```
 
 ```ser
-find method RestTemplate.[getForObject,postForObject]
+find call RestTemplate.[getForObject,postForObject]
 from argument[0] take value
 from method take name
 ```
 
 ```ser
-find field with annotation @Value
-from annotation on field @Value take attr(value)
+find field
+when annotation @Value on field
+from annotation @Value on field take attr(value)
 ```
 
 Use Java/JDT vocabulary for Spring endpoints, Java method calls, annotations,

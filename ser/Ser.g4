@@ -32,7 +32,7 @@ ruleTargetDecl
 // Public find surface (final):
 //   find call Owner.name | Owner.[a,b]
 //   find <kind> <selector>?
-// Legacy sugar is rewritten by Java/JS desugar only — not in this grammar.
+// No legacy forms. Unsupported text must be rewritten by the author.
 findDecl
     : FIND CALL methodPattern
     | FIND genericFindKind=nameItem genericFindName=findName?
@@ -49,7 +49,7 @@ sourceLine
 // Public from surface (final):
 //   from annotation @X on element | from decorator Name on element
 //   from argument[i] | from new Q.Name | from literal … | from <kind> <name>?
-// Legacy order is desugar-only.
+// No legacy order.
 sourceExpr
     : ANNOTATION annotationRef ON elementRef
     | DECORATOR decoratorRef ON elementRef

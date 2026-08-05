@@ -44,9 +44,12 @@ Choose an anchor with `find`. The anchor is the code element that proves a recor
 Examples:
 
 ```text
-find method with annotation @SomeAnnotation
-find class with annotation @SomeAnnotation
-find field with annotation @SomeAnnotation
+find method
+when annotation @SomeAnnotation on method
+find class
+when annotation @SomeAnnotation on class
+find field
+when annotation @SomeAnnotation on field
 find call with method SomeType.someMethod
 find call with method someMethod
 ```
@@ -60,10 +63,10 @@ After finding an anchor, extract values with `let` and `from`.
 Annotation values:
 
 ```text
-from annotation on method @X take attr(value)
-from annotation on class @X take attr(path)
-from annotation on field @X take attr(value)
-from annotation on method @X take name
+from annotation @X on method take attr(value)
+from annotation @X on class take attr(path)
+from annotation @X on field take attr(value)
+from annotation @X on method take name
 ```
 
 Call values:
@@ -117,7 +120,7 @@ Use `map` when one extracted value needs to be translated into another:
 
 ```text
 let method =
-  from annotation on method @X take name
+  from annotation @X on method take name
   map {
     Get: GET
     Post: POST

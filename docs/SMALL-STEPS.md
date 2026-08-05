@@ -18,7 +18,7 @@ Repos live in:
 
 1. **Visible on git** — each step has a clear commit message (`step-N: ...`).
 2. **Small** — ideally < 1 day of risk; easy to revert one commit.
-3. **Compatible first** — keep old Java sugar working via desugar until rules migrate.
+3. **Compatible first** — keep old Java sugar working with the clean grammar until rules migrate.
 4. **Tests gate** — do not merge a step that fails `mvn test` / `npm test`.
 
 ---
@@ -34,7 +34,7 @@ Repos live in:
 | **A3** | java | Inventory: list all `.ser` using sugar | Checklist in java repo | **done** (`static-extract-java` `step-A3`, `docs/SUGAR-INVENTORY.md`) |
 | **A4** | js | Confirm TS rules already use generic `find` only | Short note in js README | **done** (`static-extract-js` `step-A4`) |
 
-### Phase B — Java desugar safety net (still no g4 break)
+### Phase B — the clean grammar safety net (still no g4 break)
 
 | Step | Repo | What | Done when |
 |---|---|---|---|
@@ -50,7 +50,7 @@ Repos live in:
 |---|---|---|---|
 | **C1** | spec | Prefer generic find; document dual path | Docs + comments | **done** (via C3 docs) |
 | **C2** | java + js | Regenerate ANTLR parsers; tests green | Both extractors build | **done** |
-| **C3** | spec | Remove F1–F3 `find with annotation` from g4 | Old sugar only via Java desugar | **done** |
+| **C3** | spec | Remove F1–F3 `find with annotation` from g4 | Old sugar only via the clean grammar | **done** |
 | **C4** | java + js | Regenerate parsers again; full tests | No sugar left in public g4 |
 
 ### Phase D — migrate surface syntax & docs

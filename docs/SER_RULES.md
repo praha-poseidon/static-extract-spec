@@ -120,7 +120,7 @@ when annotation @GetMapping on method
 find method
 when annotation @*Mapping on method
 find method RestTemplate.[getForObject,postForObject,exchange]
-find method Router.get
+find call Router.get
 find field baseUrl
 find field
 when annotation @ConfigProperty on field
@@ -130,13 +130,15 @@ when annotation @ConfigProperty on field
 
 `find method` 加 `when annotation @X on method` 查找带该注解的方法声明。
 
-Legacy sugar `find method with annotation @X` is still accepted by **static-extract-java** via desugar, but it is not part of the shared `Ser.g4` grammar.
+Legacy sugar `find method
+when annotation @X on method` is still accepted by **static-extract-java** with the clean grammar, but it is not part of the shared `Ser.g4` grammar.
 
-旧写法 `find method with annotation @X` 仍可被 **static-extract-java** desugar 接受，但已不是公共 `Ser.g4` 语法。
+旧写法 `find method
+when annotation @X on method` 仍可被 **static-extract-java** desugar 接受，但已不是公共 `Ser.g4` 语法。
 
-`find method Owner.name` finds method calls.
+`find call Owner.name` finds method calls.
 
-`find method Owner.name` 查找方法调用。
+`find call Owner.name` 查找方法调用。
 
 `find field baseUrl` finds a field by Java field name.
 
@@ -160,7 +162,7 @@ Legacy sugar `find method with annotation @X` is still accepted by **static-extr
 | Find annotated class | `find class` + `when annotation @Controller on class` |
 | Find annotated method | `find method` + `when annotation @GetMapping on method` |
 | Find annotation suffix | `find method` + `when annotation @*Mapping on method` |
-| Find method call | `find method RestTemplate.getForObject` |
+| Find method call | `find call RestTemplate.getForObject` |
 | Find method calls | `find method RestTemplate.[getForObject,postForObject]` |
 | Find named field | `find field baseUrl` |
 | Find annotated field | `find field` + `when annotation @ConfigProperty on field` |
@@ -194,7 +196,7 @@ Legacy sugar `find method with annotation @X` is still accepted by **static-extr
 | 查找带注解的类 | `find class` + `when annotation @Controller on class` |
 | 查找带注解的方法 | `find method` + `when annotation @GetMapping on method` |
 | 按注解后缀查找 | `find method` + `when annotation @*Mapping on method` |
-| 查找方法调用 | `find method RestTemplate.getForObject` |
+| 查找方法调用 | `find call RestTemplate.getForObject` |
 | 查找多个方法调用 | `find method RestTemplate.[getForObject,postForObject]` |
 | 查找指定字段 | `find field baseUrl` |
 | 查找带注解字段 | `find field` + `when annotation @ConfigProperty on field` |

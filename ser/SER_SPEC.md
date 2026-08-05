@@ -196,14 +196,12 @@ rules SHOULD use explicit `fact`.
 find method
 when annotation @GetMapping on method
 
-find method RestTemplate.getForObject
+find call RestTemplate.getForObject
 find jsx Button
 find export [GET,POST]
 ```
 
-Java extractors may still accept the legacy sugar `find method with annotation @GetMapping`
-by desugaring it to the form above before parse. That sugar is **not** part of the
-shared `Ser.g4` grammar (removed in step-C3).
+Legacy sugar forms are **not** supported. Authors must use the clean surface in `docs/CLEAN-G4.md`.
 
 Extractor vocabularies MAY support a bracketed name list after `find`. A list is
 equivalent to running the same selector once per listed name and may emit
@@ -269,8 +267,8 @@ NOT silently include anchors that should have been filtered out.
 
 ```ser
 let path =
-  from annotation on method @GetMapping take attr(value)
-  from annotation on method @GetMapping take attr(path)
+  from annotation @GetMapping on method take attr(value)
+  from annotation @GetMapping on method take attr(path)
   default ""
 ```
 
@@ -288,7 +286,7 @@ If no source yields a value and no `default` is present, the value is empty.
 `from` selects a source relative to the current anchor.
 
 ```ser
-from annotation on method @Route take attr(value)
+from annotation @Route on method take attr(value)
 from argument[0] take value
 from children take text
 from prop onClick take reference
@@ -338,7 +336,7 @@ A `map` block on a `let` maps raw extracted values to normalized values.
 
 ```ser
 let httpMethod =
-  from annotation on method @*Mapping take name
+  from annotation @*Mapping on method take name
   map {
     GetMapping: GET
     PostMapping: POST

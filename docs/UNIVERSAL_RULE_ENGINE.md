@@ -105,10 +105,11 @@ Java 规则示例：
 rule "Spring MVC Endpoint"
 fact backend_endpoint
 
-find method with annotation @*Mapping
+find method
+when annotation @*Mapping on method
 
 let path =
-  from annotation on method @*Mapping take attr(value)
+  from annotation @*Mapping on method take attr(value)
 
 build {
   method: "GET"

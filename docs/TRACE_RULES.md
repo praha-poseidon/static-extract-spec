@@ -71,7 +71,7 @@ from field
 when annotation @Value on field
 
 let rawValue =
-  from annotation on field @Value take attr(value)
+  from annotation @Value on field take attr(value)
 
 build {
   namespace: "config"
@@ -249,7 +249,7 @@ From a field annotation:
 
 ```ser
 let rawValue =
-  from annotation on field @Value take attr(value)
+  from annotation @Value on field take attr(value)
 ```
 
 From a class annotation:
@@ -258,7 +258,7 @@ From a class annotation:
 
 ```ser
 let prefix =
-  from annotation on class @ConfigurationProperties take attr(prefix)
+  from annotation @ConfigurationProperties on class take attr(prefix)
 ```
 
 From the stuck field itself:
@@ -396,7 +396,7 @@ from field
 when annotation @Value on field
 
 let rawValue =
-  from annotation on field @Value take attr(value)
+  from annotation @Value on field take attr(value)
 
 build {
   namespace: "config"
@@ -469,7 +469,7 @@ from field
 when annotation @ConfigurationProperties on class
 
 let prefix =
-  from annotation on class @ConfigurationProperties take attr(prefix)
+  from annotation @ConfigurationProperties on class take attr(prefix)
 
 let fieldName =
   from field take name

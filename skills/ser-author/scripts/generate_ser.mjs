@@ -77,10 +77,11 @@ build {
 export const JAVA_ANNOTATION_FACT_SER = `rule "Spec Java Annotation Fact"
 fact backend_endpoint
 
-find method with annotation @RouteGet
+find method
+when annotation @RouteGet on method
 
 let path =
-  from annotation on method @RouteGet take attr(value)
+  from annotation @RouteGet on method take attr(value)
 
 build {
   path: path
@@ -90,10 +91,11 @@ build {
 export const JAVA_CONFIG_FIELD_SER = `rule "Spec Java Config Field"
 fact config_key
 
-find field with annotation @ConfigProperty
+find field
+when annotation @ConfigProperty on field
 
 let configKey =
-  from annotation on field @ConfigProperty take attr(value)
+  from annotation @ConfigProperty on field take attr(value)
 
 let fieldName =
   from field take name

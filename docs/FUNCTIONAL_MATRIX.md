@@ -10,14 +10,16 @@ The table below lists the generic capabilities that are covered by functional te
 
 | Capability | SER shape | Covered by |
 | --- | --- | --- |
-| Find method by annotation | `find method with annotation @OperationDoc` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
-| Find method call by owner/name | `find method Gateway.submit` | `FunctionalCapabilityMatrixTest.extractsGenericMethodCallArgumentsAndCallMetadata` |
-| Read class annotation attribute | `from annotation on class @EntityDoc take attr(value)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
-| Read method annotation attribute | `from annotation on method @OperationDoc take attr(name)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
-| Read parameter annotation attribute | `from annotation on parameter @Input take attr(value)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
+| Find method by annotation | `find method
+when annotation @OperationDoc on method` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
+| Find method call by owner/name | `find call Gateway.submit` | `FunctionalCapabilityMatrixTest.extractsGenericMethodCallArgumentsAndCallMetadata` |
+| Read class annotation attribute | `from annotation @EntityDoc on class take attr(value)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
+| Read method annotation attribute | `from annotation @OperationDoc on method take attr(name)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
+| Read parameter annotation attribute | `from annotation @Input on parameter take attr(value)` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
 | Read field value | `from field PREFIX take value` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
 | Find field by name | `find field baseUrl` | `FunctionalCapabilityMatrixTest.findsFieldByNameWithoutFrameworkSpecificCode` |
-| Find field by annotation | `find field with annotation @ConfigProperty` | `FunctionalCapabilityMatrixTest.findsFieldsByAnnotationAndResolvesExternalDictionaryValues` |
+| Find field by annotation | `find field
+when annotation @ConfigProperty on field` | `FunctionalCapabilityMatrixTest.findsFieldsByAnnotationAndResolvesExternalDictionaryValues` |
 | Read parameter metadata | `from parameter accountId take name` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
 | Trace returned value | `from return take value` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |
 | Read new expression type | `from new AuditRecord take type` | `FunctionalCapabilityMatrixTest.extractsGenericAnnotationFieldParameterReturnAndNewElements` |

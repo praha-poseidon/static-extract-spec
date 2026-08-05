@@ -45,7 +45,7 @@ Meaning: find **call sites**, not the place `getForObject` is defined.
 Older Java rules often wrote:
 
 ```ser
-find method RestTemplate.getForObject
+find call RestTemplate.getForObject
 ```
 
 That looks like “declaration”, but the **Java extractor has always treated
@@ -54,7 +54,7 @@ That looks like “declaration”, but the **Java extractor has always treated
 | Surface (old) | Runtime meaning (Java) | Prefer now |
 |---|---|---|
 | `find method` + annotation when | declaration | keep |
-| `find method Owner.name` | **call** | `find call Owner.name` |
+| `find call Owner.name` | **call** | `find call Owner.name` |
 | `find method Owner.[a,b]` | **call** | `find call Owner.[a,b]` |
 | `find call name` (JS-style) | call | keep |
 
@@ -72,7 +72,7 @@ Prefer the same mental model on Java rules going forward.
 `static-extract-java` rewrites legacy:
 
 ```text
-find method RestTemplate.getForObject
+find call RestTemplate.getForObject
 → find call RestTemplate.getForObject
 ```
 
