@@ -27,14 +27,16 @@ findDecl
     : FIND freeAtom+
     ;
 
-// when if <condition>  |  when <free…>
+// when / where if <condition>  |  when / where <free…>
+// "where" is an alias of "when" (filter only; does not identify the rule).
 whenDecl
-    : WHEN IF conditionExpr
-    | WHEN freeAtom+
+    : (WHEN | WHERE) IF conditionExpr
+    | (WHEN | WHERE) freeAtom+
     ;
 
+// Optional pipeline after let sources (same steps as build fields).
 letDecl
-    : LET freeAtom EQ sourceLine+ defaultLine? mapBlock?
+    : LET freeAtom EQ sourceLine+ defaultLine? mapBlock? pipelineStep*
     ;
 
 sourceLine
@@ -196,6 +198,7 @@ FALLBACK: 'fallback';
 MAP: 'map';
 BUILD: 'build';
 WHEN: 'when';
+WHERE: 'where';
 IF: 'if';
 AND: 'and';
 OR: 'or';

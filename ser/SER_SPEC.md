@@ -26,11 +26,15 @@ fact fact_type
 find <free-atoms>
 
 when <free-atoms>
+where <free-atoms>
 when if <condition>
+where if <condition>
 
 let name =
   from <free-atoms> take <free-atoms>
   fallback <free-atom>
+  | normalize slash
+  | regex "..." group 1
 
 build {
   field: expression

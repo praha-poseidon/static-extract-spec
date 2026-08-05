@@ -6,10 +6,12 @@ language element means.
 ## Structure keywords
 
 ```text
-rule  fact  endpoint  find  when  let  from  take  fallback  map  build  trace
+rule  fact  endpoint  find  when  where  let  from  take  fallback  map  build  trace
 if  and  or  not  exists  matches  contains  in
 concat  normalize  regex  replace  group
 ```
+
+`where` is an alias of `when` (filters anchors; does not replace `find`).
 
 Plus punctuation and `when if` condition operators.
 
