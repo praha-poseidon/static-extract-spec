@@ -1,7 +1,7 @@
 rule "Spec Java Method Call"
 fact api_call
 
-find method HttpClient.get
+find call HttpClient.get
 
 let callName =
   from call take name

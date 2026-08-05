@@ -72,3 +72,4 @@ Grammar purification and language-boundary work is done in **small git commits**
 
 - Plan: [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md)
 - Core vs Java sugar table: [docs/CORE-VS-JAVA-DIALECT.md](docs/CORE-VS-JAVA-DIALECT.md)
+- Method vs call: [docs/METHOD-VS-CALL.md](docs/METHOD-VS-CALL.md)

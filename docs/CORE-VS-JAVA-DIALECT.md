@@ -76,7 +76,7 @@ rules; they inflate the shared grammar.
 | F1 | `find method with annotation @X` | `find method` + `when annotation @X on method` | **Removed from g4 (C3)**; Java desugar B2 |
 | F2 | `find class with annotation @X` | `find class` + `when annotation @X on class` | **Removed from g4 (C3)**; Java desugar B2 |
 | F3 | `find field with annotation @X` | `find field` + `when annotation @X on field` | **Removed from g4 (C3)**; Java desugar B2 |
-| F4 | `find method Owner.name` | `find call Owner.name` **or** keep `find method Owner.name` as Java vocab selector | Today Java treats methodPattern as **calls** in many rules — document carefully in B* |
+| F4 | `find method Owner.name` | `find call Owner.name` | **Desugared (F4 step)**; g4 accepts both `find call` and legacy `find method` patterns |
 | F5 | `find method Owner.[a,b]` | same as F4 with list | |
 | F6 | `find class` (bare keyword production) | `find class` via generic `find nameItem` | Duplicate of generic path |
 | F7 | `find field name` | `find field name` via generic | Duplicate of generic path |
@@ -181,6 +181,8 @@ or keep `find method` with Java vocabulary semantics “call pattern”.
 - Framework rule packs (Spring, React) — stay in language repos.
 
 ---
+
+Also see `docs/METHOD-VS-CALL.md`.
 
 ## 5. Source of truth today
 

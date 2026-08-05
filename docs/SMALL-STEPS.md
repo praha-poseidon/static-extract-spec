@@ -96,8 +96,9 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - Phase B desugar safety net: **done** (B1–B5)
 - Phase C F1–F3 g4 removal: **done** (C3/C4)
 - Phase D1–D3 canonical authoring + docs: **done**
-- Phase E annotation source order: **done** (E1 g4 dual→E5 preferred-only + Java desugar)
-- Next: optional F4 method-vs-call / further when purification
+- Phase E annotation source order: **done**
+- Phase F4 method-vs-call: **done** (`METHOD-VS-CALL.md` + desugar + find call pattern)
+- Next: optional when purification / decorator legacy / CI
 
 ---
 

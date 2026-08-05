@@ -30,10 +30,11 @@ ruleTargetDecl
     ;
 
 // Prefer generic: find <kind> <selector>?
-// Java dialect sugar "find X with annotation @Y" is removed from the public grammar
-// (step-C3). static-extract-java desugars that form before parse (step-B2).
+// Qualified call patterns: prefer "find call Owner.name" (see docs/METHOD-VS-CALL.md).
+// Legacy "find method Owner.name" still parses; Java desugar rewrites it to find call.
 findDecl
-    : FIND METHOD methodPattern
+    : FIND CALL methodPattern
+    | FIND METHOD methodPattern
     | FIND CLASS
     | FIND FIELD fieldName=nameItem
     | FIND genericFindKind=nameItem genericFindName=findName?
