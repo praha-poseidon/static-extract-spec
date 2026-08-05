@@ -91,9 +91,9 @@ FIND genericFindKind=nameItem genericFindName=findName?
 
 | # | Current sugar | Target canonical form |
 |---|---|---|
-| S1 | `from annotation on method @X` | `from annotation @X` with `on: method` in IR / `from annotation @X on method` as free form |
-| S2 | `from annotation on class @X` | same, `on: class` |
-| S3 | `from annotation on field @X` | same, `on: field` |
+| S1 | `from annotation on method @X` | **Preferred:** `from annotation @X on method` (both in g4 as of step-E1) |
+| S2 | `from annotation on class @X` | **Preferred:** `from annotation @X on class` |
+| S3 | `from annotation on field @X` | **Preferred:** `from annotation @X on field` |
 | S4 | `from decorator on …` | TS-oriented; prefer generic `from decorator …` |
 | S5 | bare `from method` / `from call` / … keyword alts | `from method` via generic source kind |
 | S6 | `from new Qualified.Name` | `from new Qualified.Name` as generic + selector |

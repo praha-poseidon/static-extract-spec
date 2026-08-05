@@ -47,8 +47,14 @@ sourceLine
     : FROM sourceExpr TAKE takeExpr
     ;
 
+// Preferred annotation/decorator order: ref first, then optional on-target
+//   from annotation @GetMapping on method take attr(value)
+// Legacy Java order (still accepted; Java desugar can rewrite to preferred):
+//   from annotation on method @GetMapping take attr(value)
 sourceExpr
-    : ANNOTATION ON elementRef annotationRef
+    : ANNOTATION annotationRef ON elementRef
+    | ANNOTATION ON elementRef annotationRef
+    | DECORATOR decoratorRef ON elementRef
     | DECORATOR ON elementRef decoratorRef
     | ARGUMENT LBRACK INT RBRACK
     | CALL
