@@ -33,7 +33,7 @@ run
 ## Output
 
 `run` writes newline-delimited JSON. Each line must validate against
-`spec/schema/extracted-fact.schema.json`.
+`schema/extracted-fact.schema.json` in this repository.
 
 `try` may return a command report, but its `results` field must contain the same
 `ExtractedFact` shape.

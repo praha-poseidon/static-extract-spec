@@ -1,128 +1,34 @@
-# React/TS Vocabulary
+# React / TS vocabulary (free atoms)
 
-Source of truth: `ts/vocabulary.md`.
+Shared grammar is structure-only. Below are **static-extract-js** atoms.
 
-Currently supported SER:
-
-Use generic JSX and call vocabulary first. Specific names such as `button`,
-`ActionButton`, `fetch`, `axios`, or `request` are selector values, not separate
-extractor features.
+## find
 
 ```ser
-rule "React Button Text"
-fact ui_text
-
 find jsx button
-
-let label =
-  from jsx button take text
-
-build {
-  component: "react"
-  kind: "button"
-  text: label
-}
-```
-
-```ser
-rule "Generic Component Text"
-fact ui_text
-
-find jsx ActionButton
-
-let label =
-  from children take text
-
-build {
-  component: "ActionButton"
-  text: label
-}
-```
-
-```ser
-rule "React Button Action"
-fact ui_action
-
-find jsx button
-
-let label =
-  from jsx button take text
-
-let handler =
-  from prop onClick take reference
-
-build {
-  component: "react"
-  kind: "button"
-  event: "click"
-  text: label
-  handler: handler
-}
-```
-
-```ser
-rule "Axios API Call"
-fact frontend_api_call
-
+find jsx [button,a,Button]
+find call fetch
 find call axios
-
-let method =
-  from call take method
-
-let path =
-  from argument[0] take value
-
-build {
-  client: "axios"
-  method: method
-  path: path
-}
+find call [get,post,put,patch,delete]
+find export default
+find export [GET,POST]
+find decorator Get
+find file
+find function handleSave
+find variable API_PATH
 ```
+
+## from / take
 
 ```ser
-rule "Import Shape"
-fact import_shape
-
-find import react
-
-let moduleName =
-  from import take module
-
-let namedImports =
-  from import take named
-
-build {
-  module: moduleName
-  namedImports: namedImports
-}
+from jsx button take text
+from children take text
+from prop onClick take value
+from prop onClick take reference
+from argument[0] take value
+from call take name
+from call take owner
+from export default take reference
+from decorator take name
+from file take path
 ```
-
-```ser
-rule "Class Shape"
-fact class_shape
-
-find class UserPanel
-
-let className =
-  from class take name
-
-let baseClass =
-  from class take extends
-
-build {
-  name: className
-  extends: baseClass
-}
-```
-
-Use this for requests such as:
-
-- extract React button text
-- extract Chinese text from React buttons
-- extract React button click actions
-- list onClick handlers for buttons
-- list button labels in `.tsx` or `.jsx` files
-- extract frontend API calls from fetch or axios
-- list API paths used by React pages
-- list imports used by a file or component
-- extract class component names and base classes

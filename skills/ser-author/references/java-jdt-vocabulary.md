@@ -1,28 +1,39 @@
-# Java/JDT Vocabulary
+# Java/JDT vocabulary (free atoms)
 
-Source of truth: `java/jdt/vocabulary.md`.
+Shared grammar is structure-only (`CLEAN-G4.md`). Below are **Java extractor**
+atoms after `find` / `from` / `when` / `take`.
 
-Common supported examples:
+## find
 
 ```ser
 find method
 when annotation @*Mapping on method
-from annotation @*Mapping on method take attr(value)
-from annotation @RequestMapping on class take attr(value)
-```
 
-```ser
-find call RestTemplate.[getForObject,postForObject]
-from argument[0] take value
-from method take name
-```
-
-```ser
 find field
 when annotation @Value on field
-from annotation @Value on field take attr(value)
+
+find call RestTemplate.getForObject
+find call RestTemplate.[getForObject,postForObject]
+find class
+when annotation @Controller on class
 ```
 
-Use Java/JDT vocabulary for Spring endpoints, Java method calls, annotations,
-fields, and config extraction.
+## from / take
 
+```ser
+from annotation @*Mapping on method take attr(value)
+from annotation @RequestMapping on class take attr(path)
+from argument[0] take value
+from call take owner
+from method take name
+from field take name
+from field take value
+```
+
+## when (trace)
+
+```ser
+when annotation @Value on field
+when method Environment.getProperty
+when field name url
+```

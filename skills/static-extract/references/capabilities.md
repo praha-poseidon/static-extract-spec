@@ -1,150 +1,62 @@
-# SER Capabilities
+# SER capabilities (by extractor vocabulary)
 
-The rule engine extracts facts from Java code shapes. Do not start from hard-coded framework recipes. Inspect the project first, then express the discovered shape with these primitives.
+Shared SER grammar is **structure only** (`docs/CLEAN-G4.md`). What you can
+`find` / `from` depends on the extractor vocabulary.
 
-## Extraction Targets
+## Product goals (not grammar)
 
-Use the user's request to decide what product concepts to extract. Common product concepts include:
+- HTTP inbound / outbound
+- UI text and actions
+- Messaging, DB, Redis, jobs, RPC when visible in code
 
-- HTTP inbound endpoints
-- HTTP outbound calls
-- Kafka producers and consumers
-- database operations such as MySQL/JDBC/MyBatis/JPA
-- Redis operations and keys
-- scheduled jobs
-- RPC clients and servers
-- message queue producers and consumers
+## Java/JDT free-atom vocabulary (examples)
 
-These are output goals, not fixed parsing recipes. The agent must discover how the project represents them in code.
+Anchors:
 
-## Observable Java Elements
-
-SER rules can describe extraction around these Java elements:
-
-- class
-- method
-- field
-- annotation
-- method call
-- method argument
-- return expression
-- initializer
-- object creation
-- literal
-- name
-- type
-- source text
-
-Use these elements as the vocabulary for writing rules.
-
-## Matching Anchors
-
-Choose an anchor with `find`. The anchor is the code element that proves a record exists.
-
-Examples:
-
-```text
+```ser
 find method
 when annotation @SomeAnnotation on method
+
 find class
 when annotation @SomeAnnotation on class
+
 find field
 when annotation @SomeAnnotation on field
-find call with method SomeType.someMethod
-find call with method someMethod
+
+find call SomeType.someMethod
 ```
 
-The annotation or method names should come from the inspected project, not from this document.
+Sources:
 
-## Value Sources
-
-After finding an anchor, extract values with `let` and `from`.
-
-Annotation values:
-
-```text
+```ser
 from annotation @X on method take attr(value)
-from annotation @X on class take attr(path)
-from annotation @X on field take attr(value)
-from annotation @X on method take name
-```
-
-Call values:
-
-```text
 from argument[0] take value
-from argument[1] take source
-```
-
-Field and initializer values:
-
-```text
 from field take name
-from field take type
-from initializer take value
-```
-
-Constants:
-
-```text
+from call take owner
 from literal SOME_VALUE take value
-default ""
+  fallback ""
 ```
 
-Multiple `from` lines mean fallback sources. The first source that produces a value wins.
+## JS/TS free-atom vocabulary (examples)
 
-## Build Fields
+```ser
+find jsx button
+find call fetch
+find export default
+from prop onClick take reference
+from children take text
+from argument[0] take value
+```
 
-The `build` block defines the output field map. Field names are not validated by the CLI. Choose names that match the downstream graph or product model.
+## Build
 
-```text
+```ser
 build {
-  system: "Kafka"
-  direction: "outbound"
-  topic: topic
-  handler: handler
+  path: concat(basePath, methodPath) | normalize slash
 }
 ```
 
-Useful operations:
+## Trace
 
-```text
-concat(a, b)
-value | normalize slash
-value | normalize pathVariable
-value | normalize placeholderKey
-value | normalize placeholderDefault
-```
-
-Use `map` when one extracted value needs to be translated into another:
-
-```text
-let method =
-  from annotation @X on method take name
-  map {
-    Get: GET
-    Post: POST
-  }
-```
-
-## Trace Boundary
-
-Trace is used when the Java value points to an extractor value instead of a literal.
-
-Typical boundary forms include:
-
-- an annotation attribute that contains a placeholder
-- a field initialized by configuration
-- a method argument that names an external config key
-- an environment variable lookup
-
-Do not hard-code these forms blindly. Inspect the code and write trace rules only for the forms that appear in the project.
-
-## Unsupported Shapes
-
-If a product concept is visible in files that SER/JDT cannot currently express, report:
-
-- the target concept
-- the concrete file and line
-- the code shape
-- the missing primitive or operation
+Use when values leave pure source (config placeholders, external maps). Trace
+`from` / `when` free atoms are also vocabulary-specific.

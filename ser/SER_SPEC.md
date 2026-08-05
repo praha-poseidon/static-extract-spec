@@ -1,10 +1,11 @@
 # SER Language Specification
 
-SER is the Static Extract Rule language. This document defines the portable
-language contract shared by all extractors.
+SER is the Static Extract Rule language. The shared grammar (`Ser.g4`) defines
+**structure only**. Free atoms after `find` / `from` / `when` / `take` are
+interpreted by each extractor vocabulary. See `docs/CLEAN-G4.md`.
 
-`spec/ser/Ser.g4` is the grammar source of truth. This document defines the
-semantics that grammar alone cannot express.
+`Ser.g4` is the grammar source of truth. This document defines semantics that
+grammar alone cannot express.
 
 ## Compatibility Terms
 
@@ -106,7 +107,7 @@ incorrect fields.
 Extractor vocabulary SHOULD be declared with:
 
 ```text
-spec/schema/extractor-vocabulary.schema.json
+schema/extractor-vocabulary.schema.json
 ```
 
 The vocabulary manifest is a support matrix for docs, diagnostics, and
@@ -118,7 +119,7 @@ Extractors MAY expose or internally use a language-neutral rule IR after parsing
 SER. The shared IR schema is:
 
 ```text
-spec/schema/rule-ir.schema.json
+schema/rule-ir.schema.json
 ```
 
 The IR preserves extractor vocabulary as strings. It should not require a Java,
@@ -421,7 +422,7 @@ Comments MUST NOT affect rule semantics.
 Every emitted fact MUST validate against:
 
 ```text
-spec/schema/extracted-fact.schema.json
+schema/extracted-fact.schema.json
 ```
 
 The stable envelope is:
@@ -462,7 +463,7 @@ An extractor SHOULD publish a conformance manifest listing the fixtures it
 supports:
 
 ```text
-spec/schema/conformance-manifest.schema.json
+schema/conformance-manifest.schema.json
 ```
 
 Extractors SHOULD run supported fixtures in CI and compare produced JSONL with
@@ -474,12 +475,12 @@ Extractors SHOULD run supported fixtures in CI and compare produced JSONL with
 
 An extractor conforms to this spec when it:
 
-- parses `spec/ser/Ser.g4` or a grammar generated from it;
+- parses `ser/Ser.g4` or a grammar generated from it;
 - preserves and validates extractor vocabulary;
 - can map SER into the language-neutral rule concepts described by
-  `spec/schema/rule-ir.schema.json`;
+  `schema/rule-ir.schema.json`;
 - follows the `let`, `default`, `map`, `build`, and pipeline semantics in this
   document;
 - emits JSONL records that validate against
-  `spec/schema/extracted-fact.schema.json`;
+  `schema/extracted-fact.schema.json`;
 - exposes a CLI compatible with `spec/cli/extractor-cli.md`.

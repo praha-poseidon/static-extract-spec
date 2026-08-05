@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://static-extract.dev/schema/rule-ir.schema.json",
   "title": "Static Extract Rule IR",
-  "description": "Language-neutral rule model produced from SER before extractor-specific execution.",
+  "description": "Language-neutral rule model after SER skeleton parse. find/from/when/take payloads are free-atom strings; extractors interpret vocabulary.",
   "type": "object",
   "additionalProperties": false,
   "required": ["kind", "name"],

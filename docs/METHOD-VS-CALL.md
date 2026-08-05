@@ -1,79 +1,27 @@
-# Method declaration vs method call
+# Method declaration vs call (vocabulary)
 
-Short glossary for SER authors (especially Java).
+This is **not** a grammar distinction in `Ser.g4`. Both are free atoms after
+`find`. Extractors define the meaning.
 
-## Two different code shapes
+## Declaration
 
-### Method **declaration** (定义)
-
-Where a method is **written** on a type:
-
-```java
-@GetMapping("/users")
-public List<User> list() { ... }   // declaration
-```
-
-SER (canonical):
+Code that **defines** a method:
 
 ```ser
 find method
 when annotation @GetMapping on method
 ```
 
-Meaning: find **method declarations** that carry that annotation.
+## Call
 
-### Method **call** / invocation (调用)
-
-Where code **invokes** a method:
-
-```java
-restTemplate.getForObject(url, User.class);  // call
-```
-
-SER (canonical):
+Code that **invokes** a method:
 
 ```ser
 find call RestTemplate.getForObject
-# or simple name:
 find call fetch
 ```
 
-Meaning: find **call sites**, not the place `getForObject` is defined.
+## Java/JDT note
 
-## Historical confusion (F4)
-
-Older Java rules often wrote:
-
-```ser
-find call RestTemplate.getForObject
-```
-
-That looks like “declaration”, but the **Java extractor has always treated
-`Owner.name` / `Owner.[a,b]` patterns as call matching** (method invocations).
-
-| Surface (old) | Runtime meaning (Java) | Prefer now |
-|---|---|---|
-| `find method` + annotation when | declaration | keep |
-| `find call Owner.name` | **call** | `find call Owner.name` |
-| `find method Owner.[a,b]` | **call** | `find call Owner.[a,b]` |
-| `find call name` (JS-style) | call | keep |
-
-## JS / TS
-
-The JS vocabulary already separates them clearly:
-
-- `find method save` — method in a class/object shape  
-- `find call fetch` — call expression  
-
-Prefer the same mental model on Java rules going forward.
-
-## Desugar (Java)
-
-`static-extract-java` rewrites legacy:
-
-```text
-find call RestTemplate.getForObject
-→ find call RestTemplate.getForObject
-```
-
-so old rules keep working while public authoring uses `call`.
+Java vocabulary treats qualified patterns after `call` as invocation matching.
+Prefer `find call Owner.name`, not `find method Owner.name`.

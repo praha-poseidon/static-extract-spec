@@ -66,10 +66,12 @@ See `COMMON_LAYER.md` for the full boundary.
 
 Stable cross-language integration is **JSON**, not a shared runtime jar.
 
-## Evolution (small steps)
+## Grammar model
 
-Grammar purification and language-boundary work is done in **small git commits**.
+- **Structure only**: [docs/CLEAN-G4.md](docs/CLEAN-G4.md)
+- **Common boundary**: [COMMON_LAYER.md](COMMON_LAYER.md)
+- **Status**: [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md)
+- **Method vs call (vocabulary)**: [docs/METHOD-VS-CALL.md](docs/METHOD-VS-CALL.md)
 
-- Plan: [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md)
-- Core vs Java sugar table: [docs/CORE-VS-JAVA-DIALECT.md](docs/CORE-VS-JAVA-DIALECT.md)
-- Method vs call: [docs/METHOD-VS-CALL.md](docs/METHOD-VS-CALL.md)
+`method` / `class` / `jsx` after `find` are **free atoms**, not grammar keywords.
+Each extractor defines their meaning in its vocabulary.

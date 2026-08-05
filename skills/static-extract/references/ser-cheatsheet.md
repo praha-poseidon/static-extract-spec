@@ -1,8 +1,11 @@
 # SER Cheatsheet
 
-## Basic Rule
+Public surface only (`docs/CLEAN-G4.md`). Grammar = structure keywords;
+words after `find` / `from` / `when` / `take` are free atoms for each extractor.
 
-```text
+## Basic rule (Java vocabulary example)
+
+```ser
 rule "Spring MVC HTTP Inbound"
 fact backend_endpoint
 
@@ -24,144 +27,71 @@ let httpMethod =
   map {
     GetMapping: GET
     PostMapping: POST
-    PutMapping: PUT
-    DeleteMapping: DELETE
-    PatchMapping: PATCH
     RequestMapping: GET
   }
 
 build {
   httpMethod: httpMethod
-  path: concat(basePath, methodPath) | normalize slash | normalize pathVariable
+  path: concat(basePath, methodPath) | normalize slash
 }
 ```
 
-## Structure
-
-- `rule "Name"`: human-readable rule name.
-- `fact type_name`: output fact type, such as `backend_endpoint`, `api_call`, or `config_key`.
-- `find ...`: choose the Java element that anchors extraction.
-- `let name = ...`: define an intermediate value. Multiple `from` lines are fallback sources; the first matching value wins.
-- `build { key: value }`: emit final fields. Downstream tools read this field map.
-
-Legacy `endpoint TYPE DIRECTION` rules are still accepted for compatibility.
-New rules should use `fact`.
-
-## Common Find Clauses
+## Structure keywords
 
 ```text
-find class
-when annotation @Controller on class
+rule  fact  endpoint  find  when  let  from  take  fallback  map  build  trace
+if and or not exists matches contains in
+concat normalize regex replace group
+```
+
+## Free atoms (examples — meaning is vocabulary-specific)
+
+```text
+method  class  field  call  jsx  prop  annotation  decorator
+@GetMapping  on  attr  name  value  argument[0]  Owner.name
+```
+
+## Common patterns
+
+```ser
 find method
 when annotation @GetMapping on method
-find field
-when annotation @Value on field
-find call with method RestTemplate.getForObject
-find call with method router.get
-```
 
-Use wildcards for annotation families:
+find call RestTemplate.getForObject
+find call [get,post,delete]
 
-```text
-find method
-when annotation @*Mapping on method
-```
+find jsx button
 
-## Common Sources
-
-Annotation attributes:
-
-```text
 from annotation @GetMapping on method take attr(value)
-from annotation @RequestMapping on class take attr(path)
-from annotation @*Mapping on method take name
-```
-
-Call arguments:
-
-```text
 from argument[0] take value
-from argument[1] take source
+from call take owner
+from jsx button take text
+from prop onClick take reference
+
+let x =
+  from literal GET take value
+  fallback ""
 ```
 
-Field facts:
+## Trace
 
-```text
-from field take name
-from field take type
-from initializer take value
-```
-
-Constants:
-
-```text
-from literal GET take value
-default ""
-```
-
-## Build Operations
-
-Concatenate values:
-
-```text
-path: concat(basePath, methodPath)
-```
-
-Normalize paths:
-
-```text
-path: rawPath | normalize slash | normalize pathVariable
-```
-
-Map names to output values:
-
-```text
-let httpMethod =
-  from annotation @*Mapping on method take name
-  map {
-    GetMapping: GET
-    PostMapping: POST
-  }
-```
-
-## Trace Rules
-
-Trace rules describe external value entry points encountered when normal Java value tracing cannot continue.
-
-Trace blocks can live in the same `.ser` file as extraction rules. Keep related `rule ...` and `trace ...` blocks together unless there is a reason to share one trace block across many files.
-
-Example for Spring `@Value`:
-
-```text
+```ser
 trace "Spring Value"
-external config from field
+from field
 when annotation @Value on field
 
 let rawValue =
   from annotation @Value on field take attr(value)
 
 build {
-  namespace: "config"
-  key: rawValue | normalize placeholderKey
-  default: rawValue | normalize placeholderDefault
+  namespace: config
+  lookup: rawValue | normalize placeholderLookup
 }
 ```
 
-Then pass external values:
+## CLI
 
 ```bash
-static-extract-java run \
-  --project /my-project \
-  --rule /my-project/.ser/generated/http.ser \
-  --external-values /my-project/.ser/generated/external-values.json
+static-extract-java try --project DIR --source FILE --rule rule.ser
+static-extract-ts try --project DIR --source FILE --rule rule.ser
 ```
-
-## Repair Loop
-
-If `try` returns zero results:
-
-1. Run `diagnose`.
-2. Check whether the expected annotation or method call appears in facts.
-3. If facts show a different name, update `find`.
-4. If `find` matches but fields are empty, update the relevant `from ... take ...`.
-5. Re-run `try`.

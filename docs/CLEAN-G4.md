@@ -52,4 +52,4 @@ build {
 
 ## No compatibility layer
 
-No desugar. Wrong structure → parse error. Unknown vocabulary → extractor error.
+No compatibility rewrites. Wrong structure → parse error. Unknown vocabulary → extractor error.
