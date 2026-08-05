@@ -1,66 +1,55 @@
-# Public SER grammar (only supported surface)
+# SER public grammar = DSL skeleton only
 
-There is **no legacy compatibility layer**. Rules must match this grammar exactly
-or parsers will reject them.
+`Ser.g4` defines **structure**, not language vocabulary.
 
-## Skeleton
-
-```text
-rule "name"
-fact type_name          # or: endpoint LABEL direction
-find …
-when …*                 # optional
-let …*
-build { … }
-
-trace "name"
-from <traceTarget>
-when …*
-let …*
-build { … }
-```
-
-## find
-
-```ser
-find call Owner.name
-find call Owner.[a,b]
-find <kind> <selector>?
-```
-
-## from
-
-```ser
-from annotation @X on method|class|field|parameter
-from decorator Name on method|class|field|parameter
-from argument[i]
-from new Qualified.Name
-from literal "…"
-from <kind> <name>?
-```
-
-## when
-
-```ser
-when if <condition>
-when annotation @X on method|class|field|parameter
-when method Owner.name | when call Owner.name
-when field name x | when field type T
-when parameter name x | when parameter type T
-when method name x | when call name x | when call owner Q
-when assignment field x
-```
-
-## Not supported (will fail parse)
+## Structure keywords (grammar cares)
 
 ```text
-find method with annotation @X
-from annotation on method @X
-from decorator on class Name
-find method Owner.name          # use: find call Owner.name
+rule  fact  endpoint  find  when  let  from  take  fallback  map  build  trace
+if  and  or  not  exists  matches  contains  in
+concat  normalize  regex  replace  group
 ```
 
-## take / build
+Plus punctuation and `when if` condition operators.
 
-Unchanged: `take name|value|raw|type|owner|signature|attr(...)`,
-`build { … | normalize | regex | replace | map }`.
+(`default` is **not** a structure keyword for default values — use `fallback`.
+The word `default` may appear as a free atom, e.g. `from export default`.)
+
+## Free content (grammar does **not** interpret)
+
+Everything after `find` / `when` / `from` / `take` (except structure keywords) is a
+sequence of **free atoms**. Meaning is defined by each extractor’s **vocabulary**.
+
+Examples of free atoms (grammar treats them as opaque text):
+
+```text
+method  class  field  call  jsx  prop  annotation  decorator  argument
+@GetMapping  @*Mapping  RestTemplate.getForObject  Owner.[a,b]
+on  name  value  attr  default  …
+```
+
+## Shape
+
+```ser
+rule "Name"
+fact some_fact
+
+find method
+when annotation @RouteGet on method
+
+let path =
+  from annotation @RouteGet on method take attr(value)
+  fallback ""
+
+build {
+  path: path
+}
+```
+
+- `find` / `when` / `from` / `take` / `build` / `fallback` → structure  
+- `method` / `annotation` / `@RouteGet` / `on` / `attr` → free atoms (Java vocabulary)  
+- `find jsx button` → same structure, JS vocabulary  
+
+## No compatibility layer
+
+No desugar. Wrong structure → parse error. Unknown vocabulary → extractor error.

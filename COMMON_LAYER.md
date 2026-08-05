@@ -1,16 +1,25 @@
 # Static Extract Common Layer
 
-Owns the **language-neutral** SER contract only:
+## Owns
 
-- `ser/Ser.g4`, `ser/SER_SPEC.md`
-- JSON schemas under `schema/`
-- CLI contract, shared examples
-- Public surface: `docs/CLEAN-G4.md`
+- SER **skeleton** grammar: `ser/Ser.g4` (structure keywords only)
+- Semantics of the skeleton: `ser/SER_SPEC.md`, `docs/CLEAN-G4.md`
+- Output / IR / vocabulary **schemas** (shapes, not language words)
+- Shared examples and CLI contract
 
-Does **not** own:
+## Does not own
 
-- Language parsers (JDT, ts-morph, …)
-- AST execution
-- Compatibility shims for old SER dialects
+- What `method`, `jsx`, `annotation`, `call`, … mean  
+  → each extractor’s vocabulary + AST adapter
+- Source parsers (JDT, ts-morph, …)
+- Compatibility rewrites of old SER dialects
 
-Extractors implement the clean grammar directly. No shared desugar layer.
+## Execution model
+
+```text
+.ser text
+  → shared SER parse (structure + free atoms as text)
+  → extractor vocabulary / free-form interpreter
+  → language AST match
+  → extracted facts (JSON)
+```

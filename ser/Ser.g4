@@ -1,3 +1,5 @@
+// Static Extract Rule (SER) — structure only.
+// Language words after find/from/when/take are free atoms; extractors interpret them.
 grammar Ser;
 
 ruleFile
@@ -16,62 +18,33 @@ traceDecl
     : TRACE STRING
     ;
 
-endpointDecl
-    : ENDPOINT valueToken valueToken
-    ;
-
-factDecl
-    : FACT valueToken
-    ;
-
 ruleTargetDecl
-    : endpointDecl
-    | factDecl
+    : ENDPOINT freeAtom freeAtom
+    | FACT freeAtom
     ;
 
-// Public find surface (final):
-//   find call Owner.name | Owner.[a,b]
-//   find <kind> <selector>?
-// No legacy forms. Unsupported text must be rewritten by the author.
+// find <free…>   e.g. find method | find call Owner.name | find jsx button
 findDecl
-    : FIND CALL methodPattern
-    | FIND genericFindKind=nameItem genericFindName=findName?
+    : FIND freeAtom+
+    ;
+
+// when if <condition>  |  when <free…>
+whenDecl
+    : WHEN IF conditionExpr
+    | WHEN freeAtom+
     ;
 
 letDecl
-    : LET letName=nameItem EQ sourceLine+ defaultLine? mapBlock?
+    : LET freeAtom EQ sourceLine+ defaultLine? mapBlock?
     ;
 
 sourceLine
-    : FROM sourceExpr TAKE takeExpr
+    : FROM freeAtom+ TAKE freeAtom+
     ;
 
-// Public from surface (final):
-//   from annotation @X on element | from decorator Name on element
-//   from argument[i] | from new Q.Name | from literal … | from <kind> <name>?
-// No legacy order.
-sourceExpr
-    : ANNOTATION annotationRef ON elementRef
-    | DECORATOR decoratorRef ON elementRef
-    | ARGUMENT LBRACK INT RBRACK
-    | NEW qualifiedName
-    | LITERAL literal
-    | genericSourceKind=nameItem genericSourceName=nameItem?
-    ;
-
-takeExpr
-    : NAME
-    | VALUE
-    | RAW
-    | TYPE
-    | OWNER
-    | SIGNATURE
-    | ATTR LPAREN identList RPAREN
-    | genericTake=nameItem
-    ;
-
+// 'fallback' avoids clashing with free word "default" (e.g. export default, build field default)
 defaultLine
-    : DEFAULT literal
+    : FALLBACK freeAtom
     ;
 
 mapBlock
@@ -79,7 +52,7 @@ mapBlock
     ;
 
 mapEntry
-    : valueToken COLON valueToken
+    : freeAtom COLON freeAtom
     ;
 
 buildDecl
@@ -87,36 +60,52 @@ buildDecl
     ;
 
 buildField
-    : buildFieldName COLON buildExpr pipelineStep*
-    ;
-
-buildFieldName
-    : nameItem
-    | KEY
-    | DEFAULT
-    | OWNER
-    | SIGNATURE
+    : freeAtom COLON buildExpr pipelineStep*
     ;
 
 traceEntry
-    : FROM traceTarget whenDecl* letDecl* buildDecl
+    : FROM freeAtom whenDecl* letDecl* buildDecl
     ;
 
-// Shared condition forms (extract + trace). Not Java-only sugar.
-whenDecl
-    : WHEN IF conditionExpr
-    | WHEN ANNOTATION annotationRef ON elementRef
-    | WHEN METHOD methodPattern
-    | WHEN CALL methodPattern
-    | WHEN FIELD NAME valueToken
-    | WHEN FIELD TYPE qualifiedName
-    | WHEN PARAMETER NAME valueToken
-    | WHEN PARAMETER TYPE qualifiedName
-    | WHEN METHOD NAME valueToken
-    | WHEN CALL NAME valueToken
-    | WHEN CALL OWNER qualifiedName
-    | WHEN ASSIGNMENT FIELD valueToken
+// --- free atoms (not structure keywords) ---
+
+// Prefer splitting "call" and "[a,b]" into two atoms; use IDENT[...] for argument[0].
+// Allow common structure words as free identifiers in free positions (e.g. build field "default").
+freeAtom
+    : annotationAtom
+    | LBRACK freeList RBRACK
+    | LPAREN freeAtom* RPAREN
+    | freeIdent DOT LBRACK freeList RBRACK
+    | freeIdent (DOT freeIdent)+
+    | freeIdent LBRACK freeList RBRACK
+    | freeIdent
+    | STRING
+    | INT
     ;
+
+// MAP is structure (mapBlock). DEFAULT is free word (export default, build keys).
+// FALLBACK starts defaultLine (was legacy keyword "default").
+freeIdent
+    : IDENT
+    | KEY
+    | DEFAULT
+    | GROUP
+    | IN
+    ;
+
+freeList
+    : freeAtom (COMMA freeAtom)*
+    ;
+
+qualifiedName
+    : IDENT (DOT IDENT)*
+    ;
+
+annotationAtom
+    : AT STAR? IDENT
+    ;
+
+// --- conditions (structure for when if) ---
 
 conditionExpr
     : conditionOr
@@ -142,11 +131,11 @@ conditionAtom
     ;
 
 conditionPath
-    : nameItem conditionPathPart*
+    : IDENT conditionPathPart*
     ;
 
 conditionPathPart
-    : DOT nameItem
+    : DOT IDENT
     | LBRACK INT RBRACK
     ;
 
@@ -165,22 +154,15 @@ conditionValue
 
 conditionScalar
     : STRING
-    | valueToken
+    | IDENT
     | INT
     ;
 
-traceTarget
-    : FIELD
-    | CALL
-    | PARAMETER
-    | METHOD
-    | RETURN
-    | ASSIGNMENT
-    ;
+// --- build expressions ---
 
 buildExpr
     : STRING
-    | refName=nameItem
+    | freeAtom
     | CONCAT LPAREN concatList RPAREN
     ;
 
@@ -189,7 +171,7 @@ concatList
     ;
 
 concatItem
-    : nameItem
+    : freeAtom
     | STRING
     ;
 
@@ -200,72 +182,7 @@ pipelineStep
     | PIPE MAP LBRACE mapEntry* RBRACE
     ;
 
-methodPattern
-    : qualifiedName DOT LBRACK identList RBRACK
-    | qualifiedName DOT IDENT
-    ;
-
-qualifiedName
-    : IDENT (DOT IDENT)*
-    ;
-
-annotationRef
-    : AT IDENT
-    | AT STAR IDENT
-    ;
-
-decoratorRef
-    : AT? IDENT
-    ;
-
-elementRef
-    : CLASS
-    | METHOD
-    | FIELD
-    | PARAMETER
-    ;
-
-identList
-    : nameItem (COMMA nameItem)*
-    ;
-
-findName
-    : nameItem
-    | LBRACK identList RBRACK
-    ;
-
-nameItem
-    : IDENT
-    | NAME
-    | VALUE
-    | RAW
-    | TYPE
-    | ANNOTATION
-    | ARGUMENT
-    | METHOD
-    | CLASS
-    | FIELD
-    | CALL
-    | PARAMETER
-    | RETURN
-    | ASSIGNMENT
-    | NEW
-    | LITERAL
-    | DECORATOR
-    | KEY
-    | DEFAULT
-    | OWNER
-    | SIGNATURE
-    ;
-
-literal
-    : STRING
-    | valueToken
-    ;
-
-valueToken
-    : IDENT
-    ;
+// --- structure keywords only ---
 
 RULE: 'rule';
 TRACE: 'trace';
@@ -274,40 +191,12 @@ FACT: 'fact';
 FIND: 'find';
 LET: 'let';
 FROM: 'from';
-ON: 'on';
 TAKE: 'take';
 DEFAULT: 'default';
+FALLBACK: 'fallback';
 MAP: 'map';
 BUILD: 'build';
 WHEN: 'when';
-KEY: 'key';
-
-ANNOTATION: 'annotation';
-DECORATOR: 'decorator';
-ARGUMENT: 'argument';
-METHOD: 'method';
-CLASS: 'class';
-FIELD: 'field';
-CALL: 'call';
-PARAMETER: 'parameter';
-RETURN: 'return';
-ASSIGNMENT: 'assignment';
-NEW: 'new';
-LITERAL: 'literal';
-
-NAME: 'name';
-VALUE: 'value';
-RAW: 'raw';
-TYPE: 'type';
-OWNER: 'owner';
-SIGNATURE: 'signature';
-ATTR: 'attr';
-
-CONCAT: 'concat';
-NORMALIZE: 'normalize';
-REGEX: 'regex';
-REPLACE: 'replace';
-GROUP: 'group';
 IF: 'if';
 AND: 'and';
 OR: 'or';
@@ -316,6 +205,12 @@ EXISTS: 'exists';
 MATCHES: 'matches';
 CONTAINS: 'contains';
 IN: 'in';
+CONCAT: 'concat';
+NORMALIZE: 'normalize';
+REGEX: 'regex';
+REPLACE: 'replace';
+GROUP: 'group';
+KEY: 'key';
 
 EQEQ: '==';
 NEQ: '!=';

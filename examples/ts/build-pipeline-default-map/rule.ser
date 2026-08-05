@@ -5,8 +5,7 @@ find variable rawMethod
 
 let method =
   from variable take value
-  default post
-
+  fallback post
 build {
   method: method | map { get: GET post: POST }
 }

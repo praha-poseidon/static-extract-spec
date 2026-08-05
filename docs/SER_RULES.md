@@ -24,12 +24,12 @@ when annotation @*Mapping on method
 let basePath =
   from annotation @RequestMapping on class take attr(value)
   from annotation @RequestMapping on class take attr(path)
-  default ""
+  fallback ""
 
 let methodPath =
   from annotation @*Mapping on method take attr(value)
   from annotation @*Mapping on method take attr(path)
-  default ""
+  fallback ""
 
 let httpMethod =
   from annotation @*Mapping on method take name
@@ -289,7 +289,7 @@ The first source that produces a value wins.
 let path =
   from annotation @GetMapping on method take attr(value)
   from annotation @GetMapping on method take attr(path)
-  default ""
+  fallback ""
 ```
 
 This is used when the same logical value may be written in several code shapes.

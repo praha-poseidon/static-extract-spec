@@ -34,7 +34,7 @@ when optional extractor condition
 
 let valueName =
   from extractor source take extractor value
-  default "optional fallback"
+  fallback "optional fallback"
 
 build {
   fieldName: expression
@@ -269,7 +269,7 @@ NOT silently include anchors that should have been filtered out.
 let path =
   from annotation @GetMapping on method take attr(value)
   from annotation @GetMapping on method take attr(path)
-  default ""
+  fallback ""
 ```
 
 Each `let` MUST contain one or more `from ... take ...` sources.
