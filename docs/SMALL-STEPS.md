@@ -97,8 +97,9 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - Phase C F1–F3 g4 removal: **done** (C3/C4)
 - Phase D1–D3 canonical authoring + docs: **done**
 - Phase E annotation source order: **done**
-- Phase F4 method-vs-call: **done** (`METHOD-VS-CALL.md` + desugar + find call pattern)
-- Next: optional when purification / decorator legacy / CI
+- Phase F4 method-vs-call: **done**
+- Phase clean-g4: **done** (minimal find/from surface; dual desugar Java+JS; see `CLEAN-G4.md`)
+- Next: optional when→only `when if` / CI / IR alignment
 
 ---
 

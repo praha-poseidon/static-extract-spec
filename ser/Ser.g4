@@ -29,14 +29,12 @@ ruleTargetDecl
     | factDecl
     ;
 
-// Prefer generic: find <kind> <selector>?
-// Qualified call patterns: prefer "find call Owner.name" (see docs/METHOD-VS-CALL.md).
-// Legacy "find method Owner.name" still parses; Java desugar rewrites it to find call.
+// Clean find surface (step-clean):
+//   find call Owner.name / Owner.[a,b]  — qualified call patterns
+//   find <kind> <selector>?             — everything else (method, jsx, field, …)
+// Legacy "find method Owner.x" is rewritten by Java/JS desugar to "find call …".
 findDecl
     : FIND CALL methodPattern
-    | FIND METHOD methodPattern
-    | FIND CLASS
-    | FIND FIELD fieldName=nameItem
     | FIND genericFindKind=nameItem genericFindName=findName?
     ;
 
@@ -48,22 +46,19 @@ sourceLine
     : FROM sourceExpr TAKE takeExpr
     ;
 
-// Annotation source: preferred ref-first (legacy on-first removed from g4;
-//   static-extract-java desugars "from annotation on method @X" → preferred).
-// Decorator: both orders kept (TS examples use on-first; no JS desugar yet).
+// Clean from surface:
+//   from annotation @X on method|class|field|parameter
+//   from decorator Name on class|method|…
+//   from argument[i]
+//   from new Qualified.Name
+//   from literal …
+//   from <kind> <name>?     — call, method, field, jsx, prop, …
+// Legacy "from annotation on method @X" / "from decorator on class Name"
+// are rewritten by desugar (Java + JS) before parse.
 sourceExpr
     : ANNOTATION annotationRef ON elementRef
     | DECORATOR decoratorRef ON elementRef
-    | DECORATOR ON elementRef decoratorRef
     | ARGUMENT LBRACK INT RBRACK
-    | CALL
-    | DECORATOR
-    | METHOD
-    | CLASS
-    | FIELD sourceName=nameItem?
-    | PARAMETER sourceName=nameItem?
-    | RETURN
-    | ASSIGNMENT
     | NEW qualifiedName
     | LITERAL literal
     | genericSourceKind=nameItem genericSourceName=nameItem?
