@@ -27,11 +27,14 @@ find <free-atoms>
 
 # scope (where it lives)
 where class name UserController
+where class name matches ".*Controller$"
 where annotation @RestController on class
+where path matches "controller"
 
 # anchor predicates (the element itself)
 when annotation @PostMapping on method
-when if <condition>
+when call name matches "get|post"
+when if class.name matches ".*Client$"
 
 let name =
   from <free-atoms> take <free-atoms>
