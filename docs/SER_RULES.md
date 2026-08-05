@@ -22,17 +22,17 @@ find method
 when annotation @*Mapping on method
 
 let basePath =
-  from annotation on class @RequestMapping take attr(value)
-  from annotation on class @RequestMapping take attr(path)
+  from annotation @RequestMapping on class take attr(value)
+  from annotation @RequestMapping on class take attr(path)
   default ""
 
 let methodPath =
-  from annotation on method @*Mapping take attr(value)
-  from annotation on method @*Mapping take attr(path)
+  from annotation @*Mapping on method take attr(value)
+  from annotation @*Mapping on method take attr(path)
   default ""
 
 let httpMethod =
-  from annotation on method @*Mapping take name
+  from annotation @*Mapping on method take name
   map {
     GetMapping: GET
     PostMapping: POST
@@ -164,10 +164,10 @@ Legacy sugar `find method with annotation @X` is still accepted by **static-extr
 | Find method calls | `find method RestTemplate.[getForObject,postForObject]` |
 | Find named field | `find field baseUrl` |
 | Find annotated field | `find field` + `when annotation @ConfigProperty on field` |
-| Read class annotation | `from annotation on class @X take attr(value)` |
-| Read method annotation | `from annotation on method @X take attr(path)` |
-| Read field annotation | `from annotation on field @X take attr(name)` |
-| Read parameter annotation | `from annotation on parameter @X take attr(value)` |
+| Read class annotation | `from annotation @X on class take attr(value)` |
+| Read method annotation | `from annotation @X on method take attr(path)` |
+| Read field annotation | `from annotation @X on field take attr(name)` |
+| Read parameter annotation | `from annotation @X on parameter take attr(value)` |
 | Read argument value | `from argument[0] take value` |
 | Read call owner | `from call take owner` |
 | Read return value | `from return take value` |
@@ -198,10 +198,10 @@ Legacy sugar `find method with annotation @X` is still accepted by **static-extr
 | 查找多个方法调用 | `find method RestTemplate.[getForObject,postForObject]` |
 | 查找指定字段 | `find field baseUrl` |
 | 查找带注解字段 | `find field` + `when annotation @ConfigProperty on field` |
-| 读类注解 | `from annotation on class @X take attr(value)` |
-| 读方法注解 | `from annotation on method @X take attr(path)` |
-| 读字段注解 | `from annotation on field @X take attr(name)` |
-| 读参数注解 | `from annotation on parameter @X take attr(value)` |
+| 读类注解 | `from annotation @X on class take attr(value)` |
+| 读方法注解 | `from annotation @X on method take attr(path)` |
+| 读字段注解 | `from annotation @X on field take attr(name)` |
+| 读参数注解 | `from annotation @X on parameter take attr(value)` |
 | 读调用参数值 | `from argument[0] take value` |
 | 读调用 owner | `from call take owner` |
 | 读 return 值 | `from return take value` |
@@ -227,10 +227,10 @@ Legacy sugar `find method with annotation @X` is still accepted by **static-extr
 取值来源。
 
 ```ser
-from annotation on class @X take attr(value)
-from annotation on method @X take attr(path)
-from annotation on field @X take attr(name)
-from annotation on parameter @X take attr(value)
+from annotation @X on class take attr(value)
+from annotation @X on method take attr(path)
+from annotation @X on field take attr(name)
+from annotation @X on parameter take attr(value)
 
 from class take name
 from class take type
@@ -285,8 +285,8 @@ The first source that produces a value wins.
 
 ```ser
 let path =
-  from annotation on method @GetMapping take attr(value)
-  from annotation on method @GetMapping take attr(path)
+  from annotation @GetMapping on method take attr(value)
+  from annotation @GetMapping on method take attr(path)
   default ""
 ```
 
@@ -380,10 +380,10 @@ from field
 when annotation @ConfigProperty on field
 
 let lookupValue =
-  from annotation on field @ConfigProperty take attr(name)
+  from annotation @ConfigProperty on field take attr(name)
 
 let defaultValue =
-  from annotation on field @ConfigProperty take attr(defaultValue)
+  from annotation @ConfigProperty on field take attr(defaultValue)
 
 build {
   namespace: "config"

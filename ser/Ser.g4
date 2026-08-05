@@ -47,13 +47,11 @@ sourceLine
     : FROM sourceExpr TAKE takeExpr
     ;
 
-// Preferred annotation/decorator order: ref first, then optional on-target
-//   from annotation @GetMapping on method take attr(value)
-// Legacy Java order (still accepted; Java desugar can rewrite to preferred):
-//   from annotation on method @GetMapping take attr(value)
+// Annotation source: preferred ref-first (legacy on-first removed from g4;
+//   static-extract-java desugars "from annotation on method @X" → preferred).
+// Decorator: both orders kept (TS examples use on-first; no JS desugar yet).
 sourceExpr
     : ANNOTATION annotationRef ON elementRef
-    | ANNOTATION ON elementRef annotationRef
     | DECORATOR decoratorRef ON elementRef
     | DECORATOR ON elementRef decoratorRef
     | ARGUMENT LBRACK INT RBRACK

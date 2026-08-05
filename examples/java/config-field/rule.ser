@@ -5,7 +5,7 @@ find field
 when annotation @ConfigProperty on field
 
 let configKey =
-  from annotation on field @ConfigProperty take attr(value)
+  from annotation @ConfigProperty on field take attr(value)
 
 let fieldName =
   from field take name

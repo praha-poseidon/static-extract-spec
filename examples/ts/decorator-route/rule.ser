@@ -7,7 +7,7 @@ let method =
   from decorator take name
 
 let basePath =
-  from decorator on class Area take value
+  from decorator Area on class take value
 
 let methodPath =
   from decorator take value

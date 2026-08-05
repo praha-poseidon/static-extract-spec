@@ -5,7 +5,7 @@ find method
 when annotation @RouteGet on method
 
 let path =
-  from annotation on method @RouteGet take attr(value)
+  from annotation @RouteGet on method take attr(value)
 
 build {
   path: path
