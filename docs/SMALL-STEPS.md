@@ -48,9 +48,9 @@ Repos live in:
 
 | Step | Repo | What | Done when |
 |---|---|---|---|
-| **C1** | spec | Make generic `find`/`from`/`when` the primary productions; keep sugar as **deprecated aliases** still in g4 (optional dual path) | g4 still accepts old+new |
-| **C2** | java + js | Regenerate ANTLR parsers; tests green | Both extractors build |
-| **C3** | spec | Remove sugar productions from g4 (only after B5 green) | Old sugar only works via Java desugar |
+| **C1** | spec | Prefer generic find; document dual path | Docs + comments | **done** (via C3 docs) |
+| **C2** | java + js | Regenerate ANTLR parsers; tests green | Both extractors build | **done** |
+| **C3** | spec | Remove F1–F3 `find with annotation` from g4 | Old sugar only via Java desugar | **done** |
 | **C4** | java + js | Regenerate parsers again; full tests | No sugar left in public g4 |
 
 ### Phase D — migrate surface syntax & docs
@@ -94,7 +94,8 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - **A3** java sugar inventory: **done** (`static-extract-java/docs/SUGAR-INVENTORY.md`)
 - **A4** js generic find: **done**
 - Phase B desugar safety net: **done** (B1–B5)
-- Next: **C1** (optional dual-path g4) or hold
+- Phase C F1–F3 g4 removal: **done** (C3/C4)
+- Next: **D1** rewrite examples to canonical form (optional) or hold on from-annotation sugar
 
 ---
 
