@@ -27,12 +27,12 @@ Repos live in:
 
 ### Phase A — contract & inventory (no behavior change)
 
-| Step | Repo | What | Done when |
-|---|---|---|---|
-| **A1** | spec | This plan file | Plan merged |
-| **A2** | spec | Document “core SER vs Java dialect sugar” table (what stays in g4 vs desugar) | Doc lists every hard-coded `find`/`from`/`when` sugar form |
-| **A3** | java | Inventory: list all `.ser` using sugar (builtin + tests + examples path) | Checklist file or test that counts sugar usages |
-| **A4** | js | Confirm TS rules already use generic `find` only; note any exceptions | Short note in js README or inventory |
+| Step | Repo | What | Done when | Status |
+|---|---|---|---|---|
+| **A1** | spec | This plan file | Plan merged | **done** (`step-A1`) |
+| **A2** | spec | Document “core SER vs Java dialect sugar” table | See `CORE-VS-JAVA-DIALECT.md` | **done** (`step-A2`) |
+| **A3** | java | Inventory: list all `.ser` using sugar | Checklist in java repo | next |
+| **A4** | js | Confirm TS rules already use generic `find` only | Short note in js README | |
 
 ### Phase B — Java desugar safety net (still no g4 break)
 
@@ -89,7 +89,9 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 ## Current position
 
 - Repos split and pushed: **done**
-- Next: **A2** (document core vs Java dialect table)
+- **A1** plan: **done**
+- **A2** core vs Java dialect table: **done** (`docs/CORE-VS-JAVA-DIALECT.md`)
+- Next: **A3** (java inventory of sugar `.ser` files)
 
 ---
 

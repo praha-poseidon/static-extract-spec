@@ -47,6 +47,11 @@ SER describes extraction intent. A language extractor decides how vocabulary suc
 as `method`, `call`, `jsx`, `prop`, `decorator`, `argument`, or `keyword` maps to
 its own AST and semantic model.
 
+**Note:** `ser/Ser.g4` still contains some Java-oriented sugar productions
+(`find method with annotation …`, `from annotation on method …`, etc.). Those are
+scheduled to move to `static-extract-java` desugar. See
+`docs/CORE-VS-JAVA-DIALECT.md` and `docs/SMALL-STEPS.md`.
+
 ## Rule IR
 
 The rule IR is the language-neutral shape produced after parsing SER. It should

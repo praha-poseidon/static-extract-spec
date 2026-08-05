@@ -69,5 +69,6 @@ Stable cross-language integration is **JSON**, not a shared runtime jar.
 ## Evolution (small steps)
 
 Grammar purification and language-boundary work is done in **small git commits**.
-See [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md) for the ordered step list and
-commit convention (`step-A1`, `step-B2`, …).
+
+- Plan: [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md)
+- Core vs Java sugar table: [docs/CORE-VS-JAVA-DIALECT.md](docs/CORE-VS-JAVA-DIALECT.md)
