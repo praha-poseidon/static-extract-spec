@@ -65,3 +65,9 @@ See `COMMON_LAYER.md` for the full boundary.
 | `static-extract-js` | Generates TS parser from `ser/Ser.g4`; tests read `schema/` and `examples/ts/` |
 
 Stable cross-language integration is **JSON**, not a shared runtime jar.
+
+## Evolution (small steps)
+
+Grammar purification and language-boundary work is done in **small git commits**.
+See [docs/SMALL-STEPS.md](docs/SMALL-STEPS.md) for the ordered step list and
+commit convention (`step-A1`, `step-B2`, …).

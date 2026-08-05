@@ -1,0 +1,103 @@
+# Small-step plan: purify SER + language extractors
+
+Working style: **one git commit ≈ one reviewable step**.  
+Prefer green tests after every step. Prefer docs-only or additive changes before
+breaking grammar changes.
+
+Repos live in:
+
+| Repo | Role |
+|---|---|
+| `static-extract-spec` | grammar, schemas, shared examples, this plan |
+| `static-extract-java` | Java sugar desugar + JDT execution |
+| `static-extract-js` | TS/JS execution (consume purified grammar) |
+
+---
+
+## Principles
+
+1. **Visible on git** — each step has a clear commit message (`step-N: ...`).
+2. **Small** — ideally < 1 day of risk; easy to revert one commit.
+3. **Compatible first** — keep old Java sugar working via desugar until rules migrate.
+4. **Tests gate** — do not merge a step that fails `mvn test` / `npm test`.
+
+---
+
+## Step list (in order)
+
+### Phase A — contract & inventory (no behavior change)
+
+| Step | Repo | What | Done when |
+|---|---|---|---|
+| **A1** | spec | This plan file | Plan merged |
+| **A2** | spec | Document “core SER vs Java dialect sugar” table (what stays in g4 vs desugar) | Doc lists every hard-coded `find`/`from`/`when` sugar form |
+| **A3** | java | Inventory: list all `.ser` using sugar (builtin + tests + examples path) | Checklist file or test that counts sugar usages |
+| **A4** | js | Confirm TS rules already use generic `find` only; note any exceptions | Short note in js README or inventory |
+
+### Phase B — Java desugar safety net (still no g4 break)
+
+| Step | Repo | What | Done when |
+|---|---|---|---|
+| **B1** | java | Add `JavaSerDesugarer` that is identity (pass-through) + unit test | Wired but no rewrites yet |
+| **B2** | java | Desugar `find X with annotation @Y` → generic + when | Parser tests green for old sugar text |
+| **B3** | java | Desugar `from annotation on element @Y` | Same |
+| **B4** | java | Desugar specialized `when annotation ...` / method patterns as needed | Builtin rules still parse via desugar path |
+| **B5** | java | Route all SER parse entry points through desugar | CLI + tests use one path |
+
+### Phase C — purify shared grammar
+
+| Step | Repo | What | Done when |
+|---|---|---|---|
+| **C1** | spec | Make generic `find`/`from`/`when` the primary productions; keep sugar as **deprecated aliases** still in g4 (optional dual path) | g4 still accepts old+new |
+| **C2** | java + js | Regenerate ANTLR parsers; tests green | Both extractors build |
+| **C3** | spec | Remove sugar productions from g4 (only after B5 green) | Old sugar only works via Java desugar |
+| **C4** | java + js | Regenerate parsers again; full tests | No sugar left in public g4 |
+
+### Phase D — migrate surface syntax & docs
+
+| Step | Repo | What | Done when |
+|---|---|---|---|
+| **D1** | spec | Rewrite `examples/java/*` to canonical (non-sugar) form | Examples still pass via java CLI |
+| **D2** | java | Rewrite builtin `.ser` to canonical form (desugar becomes back-compat only) | Builtin rules use generic find/from |
+| **D3** | spec | Update `SER_SPEC.md` / `SER_RULES.md`: core vs Java dialect appendix | Docs match g4 |
+| **D4** | java | Mark desugar as compatibility layer; log/metrics optional | Documented |
+
+### Phase E — optional cleanup
+
+| Step | Repo | What |
+|---|---|---|
+| **E1** | java | Align internal model toward Rule IR strings (less `JavaElementKind` in parse layer) |
+| **E2** | all | Release notes / version bump when public g4 sugar is gone |
+
+---
+
+## Commit message convention
+
+```text
+step-A1: add small-step purify plan
+
+step-B2: desugar find-with-annotation to generic find+when
+
+step-C3: remove Java sugar productions from Ser.g4
+```
+
+One step → one commit (or one PR with a single logical commit).  
+If a step grows large, split into `step-B2a`, `step-B2b`.
+
+---
+
+## Current position
+
+- Repos split and pushed: **done**
+- Next: **A2** (document core vs Java dialect table)
+
+---
+
+## How we work day-to-day
+
+1. Pick the next open step from this file.
+2. Implement only that step.
+3. Run the relevant tests.
+4. Commit with `step-XX: ...`.
+5. Push that repo’s `main` (or open a small PR).
+6. Check the step as done in this table (edit in a follow-up micro-commit if needed).
