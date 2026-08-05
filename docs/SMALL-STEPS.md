@@ -32,7 +32,7 @@ Repos live in:
 | **A1** | spec | This plan file | Plan merged | **done** (`step-A1`) |
 | **A2** | spec | Document “core SER vs Java dialect sugar” table | See `CORE-VS-JAVA-DIALECT.md` | **done** (`step-A2`) |
 | **A3** | java | Inventory: list all `.ser` using sugar | Checklist in java repo | **done** (`static-extract-java` `step-A3`, `docs/SUGAR-INVENTORY.md`) |
-| **A4** | js | Confirm TS rules already use generic `find` only | Short note in js README | next |
+| **A4** | js | Confirm TS rules already use generic `find` only | Short note in js README | **done** (`static-extract-js` `step-A4`) |
 
 ### Phase B — Java desugar safety net (still no g4 break)
 
@@ -92,7 +92,8 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - **A1** plan: **done**
 - **A2** core vs Java dialect table: **done** (`docs/CORE-VS-JAVA-DIALECT.md`)
 - **A3** java sugar inventory: **done** (`static-extract-java/docs/SUGAR-INVENTORY.md`)
-- Next: **A4** (js: confirm generic find only)
+- **A4** js generic find: **done**
+- Next: **B1** (java desugar identity shell)
 
 ---
 
