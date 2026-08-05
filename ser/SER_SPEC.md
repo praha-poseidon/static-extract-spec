@@ -193,11 +193,17 @@ rules SHOULD use explicit `fact`.
 `find` selects the anchor locations where a rule runs.
 
 ```ser
-find method with annotation @GetMapping
+find method
+when annotation @GetMapping on method
+
 find method RestTemplate.getForObject
 find jsx Button
 find export [GET,POST]
 ```
+
+Java extractors may still accept the legacy sugar `find method with annotation @GetMapping`
+by desugaring it to the form above before parse. That sugar is **not** part of the
+shared `Ser.g4` grammar (removed in step-C3).
 
 Extractor vocabularies MAY support a bracketed name list after `find`. A list is
 equivalent to running the same selector once per listed name and may emit

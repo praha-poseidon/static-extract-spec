@@ -7,7 +7,9 @@ This document freezes the **boundary** for purifying `ser/Ser.g4`.
   They will move to `static-extract-java` desugar (steps B*) before sugar is
   removed from the public grammar (steps C*).
 
-Status as of **step-A2**: inventory only — grammar is unchanged.
+Status as of **step-C3**: `find … with annotation …` (F1–F3) **removed** from
+`ser/Ser.g4`. Java authors may still write the sugar; `static-extract-java`
+`JavaSerDesugarer` rewrites it before ANTLR parse.
 
 ---
 
@@ -71,9 +73,9 @@ rules; they inflate the shared grammar.
 
 | # | Current sugar (in g4) | Target canonical form | Notes |
 |---|---|---|---|
-| F1 | `find method with annotation @X` | `find method` + `when annotation @X` | Or desugar to IR with find kind + annotation condition |
-| F2 | `find class with annotation @X` | `find class` + `when annotation @X` | |
-| F3 | `find field with annotation @X` | `find field` + `when annotation @X` | |
+| F1 | `find method with annotation @X` | `find method` + `when annotation @X on method` | **Removed from g4 (C3)**; Java desugar B2 |
+| F2 | `find class with annotation @X` | `find class` + `when annotation @X on class` | **Removed from g4 (C3)**; Java desugar B2 |
+| F3 | `find field with annotation @X` | `find field` + `when annotation @X on field` | **Removed from g4 (C3)**; Java desugar B2 |
 | F4 | `find method Owner.name` | `find call Owner.name` **or** keep `find method Owner.name` as Java vocab selector | Today Java treats methodPattern as **calls** in many rules — document carefully in B* |
 | F5 | `find method Owner.[a,b]` | same as F4 with list | |
 | F6 | `find class` (bare keyword production) | `find class` via generic `find nameItem` | Duplicate of generic path |

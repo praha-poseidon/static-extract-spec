@@ -29,12 +29,12 @@ ruleTargetDecl
     | factDecl
     ;
 
+// Prefer generic: find <kind> <selector>?
+// Java dialect sugar "find X with annotation @Y" is removed from the public grammar
+// (step-C3). static-extract-java desugars that form before parse (step-B2).
 findDecl
-    : FIND METHOD WITH ANNOTATION annotationRef
-    | FIND METHOD methodPattern
-    | FIND CLASS WITH ANNOTATION annotationRef
+    : FIND METHOD methodPattern
     | FIND CLASS
-    | FIND FIELD WITH ANNOTATION annotationRef
     | FIND FIELD fieldName=nameItem
     | FIND genericFindKind=nameItem genericFindName=findName?
     ;
