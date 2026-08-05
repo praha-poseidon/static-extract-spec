@@ -1,0 +1,12 @@
+rule "Spec Java Annotation Fact"
+fact backend_endpoint
+
+find method with annotation @RouteGet
+
+let path =
+  from annotation on method @RouteGet take attr(value)
+
+build {
+  path: path
+}
+

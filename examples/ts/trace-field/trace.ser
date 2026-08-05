@@ -1,0 +1,9 @@
+trace "TS Field Trace"
+
+from field
+when field name API_URL
+
+build {
+  namespace: "config"
+  key: "apiUrl"
+}

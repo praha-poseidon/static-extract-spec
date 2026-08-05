@@ -1,0 +1,1 @@
+{"rule":"TS JSX Value Reference","factType":"ts_jsx_value_reference","classifiers":{},"fields":{"tag":"a","text":"Go Open","label":"Open","href":"/users","action":"submit"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":9,"endLine":9,"enclosingSymbol":"App"}

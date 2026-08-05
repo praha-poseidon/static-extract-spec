@@ -1,0 +1,12 @@
+rule "TS Build Default Map"
+fact ts_build_default_map
+
+find variable rawMethod
+
+let method =
+  from variable take value
+  default post
+
+build {
+  method: method | map { get: GET post: POST }
+}

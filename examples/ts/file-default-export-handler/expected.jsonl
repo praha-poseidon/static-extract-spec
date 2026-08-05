@@ -1,0 +1,1 @@
+{"rule":"File Default Export Handler","factType":"file_export","classifiers":{},"fields":{"handler":"handler","path":"/api/users/{param}"},"projectFilePath":"input/src/pages/api/users/[id].ts","absoluteFilePath":"${EXAMPLE_DIR}/input/src/pages/api/users/[id].ts","startLine":1,"endLine":1,"enclosingSymbol":null}

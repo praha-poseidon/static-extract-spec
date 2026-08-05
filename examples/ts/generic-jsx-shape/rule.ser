@@ -1,0 +1,20 @@
+rule "Spec TS Generic JSX Shape"
+fact ui_action
+
+find jsx ActionButton
+
+let label =
+  from children take text
+
+let handler =
+  from prop onClick take reference
+
+let title =
+  from prop title take reference
+
+build {
+  component: "ActionButton"
+  text: label
+  handler: handler
+  titleRef: title
+}

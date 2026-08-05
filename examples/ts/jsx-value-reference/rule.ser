@@ -1,0 +1,27 @@
+rule "TS JSX Value Reference"
+fact ts_jsx_value_reference
+
+find jsx [a,button,Button]
+
+let tag =
+  from jsx take name
+
+let text =
+  from children take text
+
+let labelValue =
+  from prop label take value
+
+let hrefValue =
+  from prop href take value
+
+let actionRef =
+  from prop action take reference
+
+build {
+  tag: tag
+  text: text
+  label: labelValue
+  href: hrefValue
+  action: actionRef
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://static-extract.dev/schema/extracted-fact.schema.json",
+  "title": "ExtractedFact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rule",
+    "factType",
+    "classifiers",
+    "fields",
+    "projectFilePath",
+    "absoluteFilePath",
+    "startLine",
+    "endLine",
+    "enclosingSymbol"
+  ],
+  "properties": {
+    "rule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "factType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classifiers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "projectFilePath": {
+      "type": ["string", "null"]
+    },
+    "absoluteFilePath": {
+      "type": ["string", "null"]
+    },
+    "startLine": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "endLine": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "enclosingSymbol": {
+      "type": ["string", "null"]
+    }
+  }
+}

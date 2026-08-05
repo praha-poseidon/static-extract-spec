@@ -1,0 +1,12 @@
+rule "TS Build Regex Replace"
+fact ts_build_regex_replace
+
+find variable rawConfig
+
+let raw =
+  from variable take value
+
+build {
+  key: raw | regex "\\$\\{([^}:]+)" group 1
+  path: raw | replace "^\\$\\{[^:]+:" "" | replace "\\?.*\\}$" ""
+}

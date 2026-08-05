@@ -1,0 +1,9 @@
+trace "TS Parameter Trace"
+
+from parameter
+when parameter name url
+
+build {
+  namespace: "config"
+  key: "paramUrl"
+}

@@ -1,0 +1,1 @@
+{"rule":"React Button Action","factType":"ui_action","classifiers":{},"fields":{"component":"react","kind":"button","event":"click","text":"保存","handler":"handleSave"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":8,"endLine":8,"enclosingSymbol":"App"}

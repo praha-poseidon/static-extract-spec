@@ -1,0 +1,1 @@
+{"rule":"Spec TS Generic JSX Shape","factType":"ui_action","classifiers":{},"fields":{"component":"ActionButton","text":"保存","handler":"handleSave","titleRef":"titleLabel"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":8,"endLine":8,"enclosingSymbol":"App"}

@@ -1,0 +1,9 @@
+trace "TS Method Return Trace"
+
+from method
+when method name usersUrl
+
+build {
+  namespace: "config"
+  key: "methodUrl"
+}

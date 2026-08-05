@@ -1,0 +1,2 @@
+{"rule":"React Button Text","factType":"ui_text","classifiers":{},"fields":{"component":"react","kind":"button","text":"保存"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":6,"endLine":6,"enclosingSymbol":"App"}
+{"rule":"React Button Text","factType":"ui_text","classifiers":{},"fields":{"component":"react","kind":"button","text":"提交"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":7,"endLine":7,"enclosingSymbol":"App"}

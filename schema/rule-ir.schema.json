@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://static-extract.dev/schema/rule-ir.schema.json",
+  "title": "Static Extract Rule IR",
+  "description": "Language-neutral rule model produced from SER before extractor-specific execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "name"],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["rule", "trace"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "oneOf": [
+        { "$ref": "#/$defs/ruleTarget" },
+        { "type": "null" }
+      ]
+    },
+    "find": {
+      "oneOf": [
+        { "$ref": "#/$defs/selector" },
+        { "type": "null" }
+      ]
+    },
+    "when": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/condition" }
+    },
+    "lets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/let" }
+    },
+    "build": {
+      "oneOf": [
+        { "$ref": "#/$defs/build" },
+        { "type": "null" }
+      ]
+    },
+    "traceEntries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/traceEntry" }
+    }
+  },
+  "$defs": {
+    "ruleTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["fact", "endpoint"]
+        },
+        "factType": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        }
+      }
+    },
+    "selector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Extractor vocabulary item such as method, call, jsx, file, or decorator."
+        },
+        "name": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            { "type": "null" }
+          ]
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/condition" }
+        }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Extractor vocabulary item such as annotation, decorator, method, field, parameter, owner, or type; or expression node kind such as and, or, not, compare, or exists."
+        },
+        "op": {
+          "type": ["string", "null"],
+          "description": "Comparison operator for expression conditions, such as ==, !=, matches, contains, or in."
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "integer", "minimum": 0 }
+            ]
+          }
+        },
+        "name": {
+          "type": ["string", "null"]
+        },
+        "value": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            { "type": "null" }
+          ]
+        },
+        "target": {
+          "type": ["string", "null"]
+        },
+        "left": {
+          "oneOf": [
+            { "$ref": "#/$defs/condition" },
+            { "type": "null" }
+          ]
+        },
+        "right": {
+          "oneOf": [
+            { "$ref": "#/$defs/condition" },
+            { "type": "null" }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/condition" }
+        }
+      }
+    },
+    "let": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "sources"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source" }
+        },
+        "default": {
+          "type": ["string", "null"]
+        },
+        "map": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapEntry" }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "take"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Extractor vocabulary item such as argument, annotation, prop, children, file, or export."
+        },
+        "name": {
+          "type": ["string", "null"]
+        },
+        "index": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "on": {
+          "type": ["string", "null"]
+        },
+        "take": {
+          "$ref": "#/$defs/take"
+        }
+      }
+    },
+    "take": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "names": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields"],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/buildField" }
+        }
+      }
+    },
+    "buildField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "expression"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "pipeline": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pipelineStep" }
+        }
+      }
+    },
+    "expression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["literal", "reference", "concat"]
+        },
+        "value": {
+          "type": ["string", "null"]
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/expression" }
+        }
+      }
+    },
+    "pipelineStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op"],
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": ["normalize", "regex", "replace", "map"]
+        },
+        "name": {
+          "type": ["string", "null"]
+        },
+        "pattern": {
+          "type": ["string", "null"]
+        },
+        "replacement": {
+          "type": ["string", "null"]
+        },
+        "group": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapEntry" }
+        }
+      }
+    },
+    "mapEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
+    },
+    "traceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "build"],
+      "properties": {
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "when": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/condition" }
+        },
+        "lets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/let" }
+        },
+        "build": {
+          "$ref": "#/$defs/build"
+        }
+      }
+    }
+  }
+}

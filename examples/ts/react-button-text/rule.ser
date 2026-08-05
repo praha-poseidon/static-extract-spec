@@ -1,0 +1,14 @@
+rule "React Button Text"
+fact ui_text
+
+find jsx button
+
+let label =
+  from jsx button take text
+
+build {
+  component: "react"
+  kind: "button"
+  text: label
+}
+

@@ -1,0 +1,12 @@
+trace "TS Config Trace"
+
+from call
+when call config.get
+
+let configKey =
+  from argument[0] take value
+
+build {
+  namespace: "config"
+  key: configKey
+}

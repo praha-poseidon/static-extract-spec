@@ -1,0 +1,19 @@
+rule "Spec TS Generic Call Shape"
+fact frontend_api_call
+
+find call request
+
+let callName =
+  from call take name
+
+let owner =
+  from call take owner
+
+let path =
+  from argument[0] take value
+
+build {
+  name: callName
+  owner: owner
+  path: path
+}

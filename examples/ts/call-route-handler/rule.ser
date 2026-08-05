@@ -1,0 +1,20 @@
+rule "TS Call Route Handler"
+fact ts_call_route
+
+find call [get,post,put,patch,delete]
+when if call.owner == router and call.name in [get,post,put,patch,delete]
+
+let method =
+  from call take method
+
+let path =
+  from argument[0] take value
+
+let handler =
+  from handler take reference
+
+build {
+  method: method | normalize upper
+  path: path
+  handler: handler
+}

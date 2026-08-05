@@ -1,0 +1,11 @@
+rule "Cross File API Call"
+fact api_call
+
+find call fetch
+
+let path =
+  from argument[0] take value
+
+build {
+  path: path
+}

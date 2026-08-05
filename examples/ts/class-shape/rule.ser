@@ -1,0 +1,15 @@
+rule "Class Shape"
+fact class_shape
+
+find class UserPanel
+
+let className =
+  from class take name
+
+let baseClass =
+  from class take extends
+
+build {
+  name: className
+  extends: baseClass
+}

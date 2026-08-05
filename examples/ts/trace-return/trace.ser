@@ -1,0 +1,8 @@
+trace "TS Return Trace"
+
+from return
+
+build {
+  namespace: "config"
+  key: "returnUrl"
+}

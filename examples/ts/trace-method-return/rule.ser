@@ -1,0 +1,12 @@
+rule "Fetch Method Return Trace"
+fact frontend_api_call
+
+find call fetch
+
+let path =
+  from argument[0] take value
+
+build {
+  client: "fetch"
+  path: path
+}

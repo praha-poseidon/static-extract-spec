@@ -1,0 +1,2 @@
+{"rule":"Spec TS API Call","factType":"frontend_api_call","classifiers":{},"fields":{"client":"axios","method":"GET","path":"/api/users"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":7,"endLine":7,"enclosingSymbol":"loadUsers"}
+{"rule":"Spec TS API Call","factType":"frontend_api_call","classifiers":{},"fields":{"client":"axios","method":"POST","path":"/api/users"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":11,"endLine":11,"enclosingSymbol":"createUser"}

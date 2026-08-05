@@ -1,0 +1,11 @@
+rule "TS File Route Normalizer"
+fact ts_file_route_normalizer
+
+find file
+
+let filePath =
+  from file take path
+
+build {
+  path: filePath | normalize fileRoutePath
+}

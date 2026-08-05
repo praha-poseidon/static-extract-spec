@@ -1,0 +1,1 @@
+{"rule":"Fetch With External Config","factType":"frontend_api_call","classifiers":{},"fields":{"client":"fetch","path":"/api/users"},"projectFilePath":"input/App.tsx","absoluteFilePath":"${EXAMPLE_DIR}/input/App.tsx","startLine":8,"endLine":8,"enclosingSymbol":"loadUsers"}

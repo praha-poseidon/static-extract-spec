@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://static-extract.dev/schema/conformance-manifest.schema.json",
+  "title": "Static Extract Conformance Manifest",
+  "description": "Declares which shared spec fixtures an extractor supports and must run in CI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["extractor", "specVersion", "fixtures"],
+  "properties": {
+    "extractor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "specVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path under spec/examples, such as ts/api-call or java/annotation-fact."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["required", "optional", "unsupported"],
+            "default": "required"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

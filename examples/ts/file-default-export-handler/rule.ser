@@ -1,0 +1,15 @@
+rule "File Default Export Handler"
+fact file_export
+
+find file
+
+let handler =
+  from export default take reference
+
+let filePath =
+  from file take path
+
+build {
+  handler: handler
+  path: filePath | normalize fileRoutePath
+}

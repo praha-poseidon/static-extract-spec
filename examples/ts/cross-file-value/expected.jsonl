@@ -1,0 +1,1 @@
+{"rule":"Cross File API Call","factType":"api_call","classifiers":{},"fields":{"path":"/api/users"},"projectFilePath":"input/App.ts","absoluteFilePath":"${EXAMPLE_DIR}/input/App.ts","startLine":4,"endLine":4,"enclosingSymbol":"loadUsers"}

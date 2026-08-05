@@ -1,0 +1,19 @@
+rule "Import Shape"
+fact import_shape
+
+find import react
+
+let moduleName =
+  from import take module
+
+let defaultImport =
+  from import take default
+
+let namedImports =
+  from import take named
+
+build {
+  module: moduleName
+  defaultImport: defaultImport
+  namedImports: namedImports
+}

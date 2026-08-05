@@ -1,0 +1,18 @@
+rule "TS Decorator Route"
+fact ts_decorator_route
+
+find decorator Action
+
+let method =
+  from decorator take name
+
+let basePath =
+  from decorator on class Area take value
+
+let methodPath =
+  from decorator take value
+
+build {
+  method: method
+  path: concat(basePath, "/", methodPath) | normalize httpPath
+}

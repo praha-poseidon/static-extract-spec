@@ -1,0 +1,23 @@
+rule "TS Export Shapes"
+fact ts_export_shape
+
+find export
+
+let name =
+  from export take name
+
+let reference =
+  from export take reference
+
+let kind =
+  from export take kind
+
+let module =
+  from export take module
+
+build {
+  name: name
+  reference: reference
+  kind: kind
+  module: module
+}

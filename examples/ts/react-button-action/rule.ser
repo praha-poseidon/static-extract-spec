@@ -1,0 +1,18 @@
+rule "React Button Action"
+fact ui_action
+
+find jsx button
+
+let label =
+  from jsx button take text
+
+let handler =
+  from prop onClick take reference
+
+build {
+  component: "react"
+  kind: "button"
+  event: "click"
+  text: label
+  handler: handler
+}

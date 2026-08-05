@@ -1,0 +1,11 @@
+rule "TS General Value Trace"
+fact ts_general_value_trace
+
+find call fetch
+
+let path =
+  from argument[0] take value
+
+build {
+  path: path | normalize httpPath
+}

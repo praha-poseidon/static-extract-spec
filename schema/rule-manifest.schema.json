@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://static-extract.dev/schema/rule-manifest.schema.json",
+  "title": "Static Extract Rule Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "extractor", "rules"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "extractor": {
+      "type": "string",
+      "description": "Extractor id such as java-jdt, ts-tsmorph, or vue-sfc."
+    },
+    "version": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "traceRules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

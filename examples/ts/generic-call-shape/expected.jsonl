@@ -1,0 +1,1 @@
+{"rule":"Spec TS Generic Call Shape","factType":"frontend_api_call","classifiers":{},"fields":{"name":"request","owner":"global","path":"/api/items"},"projectFilePath":"input/client.ts","absoluteFilePath":"${EXAMPLE_DIR}/input/client.ts","startLine":4,"endLine":4,"enclosingSymbol":"loadItems"}

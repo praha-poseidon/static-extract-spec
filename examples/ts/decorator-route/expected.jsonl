@@ -1,0 +1,1 @@
+{"rule":"TS Decorator Route","factType":"ts_decorator_route","classifiers":{},"fields":{"method":"Action","path":"/users/{param}"},"projectFilePath":"input/users.controller.ts","absoluteFilePath":"${EXAMPLE_DIR}/input/users.controller.ts","startLine":13,"endLine":13,"enclosingSymbol":"findOne"}

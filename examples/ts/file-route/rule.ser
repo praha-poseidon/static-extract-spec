@@ -1,0 +1,11 @@
+rule "TS File Route"
+fact ts_file_route
+
+find file route
+
+let filePath =
+  from file take path
+
+build {
+  path: filePath
+}

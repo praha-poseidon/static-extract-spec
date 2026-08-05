@@ -1,0 +1,15 @@
+rule "Spec Java Config Field"
+fact config_key
+
+find field with annotation @ConfigProperty
+
+let configKey =
+  from annotation on field @ConfigProperty take attr(value)
+
+let fieldName =
+  from field take name
+
+build {
+  key: configKey
+  field: fieldName
+}
