@@ -38,11 +38,11 @@ Repos live in:
 
 | Step | Repo | What | Done when |
 |---|---|---|---|
-| **B1** | java | Add `JavaSerDesugarer` that is identity (pass-through) + unit test | Wired but no rewrites yet |
-| **B2** | java | Desugar `find X with annotation @Y` → generic + when | Parser tests green for old sugar text |
-| **B3** | java | Desugar `from annotation on element @Y` | Same |
-| **B4** | java | Desugar specialized `when annotation ...` / method patterns as needed | Builtin rules still parse via desugar path |
-| **B5** | java | Route all SER parse entry points through desugar | CLI + tests use one path |
+| **B1** | java | Add `JavaSerDesugarer` that is identity (pass-through) + unit test | Wired but no rewrites yet | **done** |
+| **B2** | java | Desugar `find X with annotation @Y` → generic + when | Parser tests green for old sugar text | **done** |
+| **B3** | java | Desugar `from annotation on element @Y` | Pass-through until g4 expands source form | **done** (pass-through) |
+| **B4** | java | Desugar specialized `when annotation ...` / method patterns as needed | Pass-through for trace when | **done** (pass-through) |
+| **B5** | java | Route all SER parse entry points through desugar | CLI + tests use one path | **done** |
 
 ### Phase C — purify shared grammar
 
@@ -93,7 +93,8 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - **A2** core vs Java dialect table: **done** (`docs/CORE-VS-JAVA-DIALECT.md`)
 - **A3** java sugar inventory: **done** (`static-extract-java/docs/SUGAR-INVENTORY.md`)
 - **A4** js generic find: **done**
-- Next: **B1** (java desugar identity shell)
+- Phase B desugar safety net: **done** (B1–B5)
+- Next: **C1** (optional dual-path g4) or hold
 
 ---
 
