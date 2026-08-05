@@ -29,10 +29,10 @@ ruleTargetDecl
     | factDecl
     ;
 
-// Clean find surface (step-clean):
-//   find call Owner.name / Owner.[a,b]  — qualified call patterns
-//   find <kind> <selector>?             — everything else (method, jsx, field, …)
-// Legacy "find method Owner.x" is rewritten by Java/JS desugar to "find call …".
+// Public find surface (final):
+//   find call Owner.name | Owner.[a,b]
+//   find <kind> <selector>?
+// Legacy sugar is rewritten by Java/JS desugar only — not in this grammar.
 findDecl
     : FIND CALL methodPattern
     | FIND genericFindKind=nameItem genericFindName=findName?
@@ -46,15 +46,10 @@ sourceLine
     : FROM sourceExpr TAKE takeExpr
     ;
 
-// Clean from surface:
-//   from annotation @X on method|class|field|parameter
-//   from decorator Name on class|method|…
-//   from argument[i]
-//   from new Qualified.Name
-//   from literal …
-//   from <kind> <name>?     — call, method, field, jsx, prop, …
-// Legacy "from annotation on method @X" / "from decorator on class Name"
-// are rewritten by desugar (Java + JS) before parse.
+// Public from surface (final):
+//   from annotation @X on element | from decorator Name on element
+//   from argument[i] | from new Q.Name | from literal … | from <kind> <name>?
+// Legacy order is desugar-only.
 sourceExpr
     : ANNOTATION annotationRef ON elementRef
     | DECORATOR decoratorRef ON elementRef
@@ -107,6 +102,7 @@ traceEntry
     : FROM traceTarget whenDecl* letDecl* buildDecl
     ;
 
+// Shared condition forms (extract + trace). Not Java-only sugar.
 whenDecl
     : WHEN IF conditionExpr
     | WHEN ANNOTATION annotationRef ON elementRef
@@ -276,7 +272,6 @@ TRACE: 'trace';
 ENDPOINT: 'endpoint';
 FACT: 'fact';
 FIND: 'find';
-WITH: 'with';
 LET: 'let';
 FROM: 'from';
 ON: 'on';
@@ -284,10 +279,8 @@ TAKE: 'take';
 DEFAULT: 'default';
 MAP: 'map';
 BUILD: 'build';
-EXTERNAL: 'external';
 WHEN: 'when';
 KEY: 'key';
-RESOLVE: 'resolve';
 
 ANNOTATION: 'annotation';
 DECORATOR: 'decorator';
@@ -315,8 +308,6 @@ NORMALIZE: 'normalize';
 REGEX: 'regex';
 REPLACE: 'replace';
 GROUP: 'group';
-PLAIN: 'plain';
-PLACEHOLDER: 'placeholder';
 IF: 'if';
 AND: 'and';
 OR: 'or';

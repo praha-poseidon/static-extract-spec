@@ -98,8 +98,10 @@ If a step grows large, split into `step-B2a`, `step-B2b`.
 - Phase D1–D3 canonical authoring + docs: **done**
 - Phase E annotation source order: **done**
 - Phase F4 method-vs-call: **done**
-- Phase clean-g4: **done** (minimal find/from surface; dual desugar Java+JS; see `CLEAN-G4.md`)
-- Next: optional when→only `when if` / CI / IR alignment
+- Phase clean-g4: **done** (see `CLEAN-G4.md`)
+- Final cleanup: **done** (dead tokens removed, tests/docs canonical, CI added)
+- Remaining optional: IR model unification only (not public syntax)
+
 
 ---
 

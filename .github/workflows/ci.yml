@@ -1,0 +1,16 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Grammar and schema present
+        run: |
+          test -f ser/Ser.g4
+          test -f ser/SER_SPEC.md
+          test -f schema/extracted-fact.schema.json
+          test -f docs/CLEAN-G4.md

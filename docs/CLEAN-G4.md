@@ -1,47 +1,82 @@
-# Clean public Ser.g4 surface
+# Public SER grammar (final surface)
 
-After grammar cleanup, the **shared** grammar is intentionally small.
+This is the **clean public** `Ser.g4` contract. Language extractors may desugar
+legacy authoring forms before parse; those forms are **not** part of the shared
+grammar.
 
-## find
+## rule / trace skeleton
 
 ```text
+rule "name"
+fact type_name          # or: endpoint LABEL direction
+
+find …
+when …                  # zero or more
+let … = from … take …
+build { … }
+
+trace "name"
+from <traceTarget>
+when …
+let …
+build { … }
+```
+
+## find (only two shapes)
+
+```ser
 find call Owner.name
-find call Owner.[a,b]
+find call Owner.[a,b,c]
 find <kind> <selector>?
 ```
 
-Examples: `find method`, `find jsx button`, `find call fetch`, `find field url`.
+`<kind>` is vocabulary (e.g. `method`, `jsx`, `export`, `field`, `call`, …).
 
-Removed from public g4 (desugared by Java/JS when needed):
+## from (only these shapes)
 
-- `find X with annotation @Y`
-- `find method Owner.name` (→ `find call Owner.name`)
-- dedicated `find class` / `find field name` productions (use generic `find class` / `find field name`)
-
-## from
-
-```text
-from annotation @X on method|class|field|parameter
-from decorator Name on class|method|…
-from argument[i]
+```ser
+from annotation @Name on method|class|field|parameter
+from decorator Name on method|class|field|parameter
+from argument[0]
 from new Qualified.Name
-from literal …
+from literal "x"
 from <kind> <name>?
 ```
 
-Removed legacy on-first annotation/decorator orders from public g4.
+## when (shared conditions)
 
-## when
+```ser
+when if <condition>
+when annotation @X on method|class|field|parameter
+when method Owner.name
+when call Owner.name
+when field name x | when field type T
+when parameter name x | when parameter type T
+when method name x | when call name x | when call owner Q
+when assignment field x
+```
 
-Still includes specialized forms used by extract/trace (`when annotation`, `when method`,
-`when if`, …). These are **shared condition vocabulary**, not Java-only sugar.
-Further unification to only `when if` is optional future work.
+These are **shared** extract/trace conditions, not Java-only dialect.
 
-## Desugar
+## take / build
 
-| Form | Java | JS |
-|---|---|---|
-| `find X with annotation @Y` | yes | yes |
-| `from annotation on elem @Y` | yes | yes |
-| `from decorator on elem Name` | yes | yes |
-| `find method Owner.x` | yes | yes |
+```ser
+take name | value | raw | type | owner | signature | attr(...)
+build {
+  field: expr | normalize ident | regex "…" group N | replace "a" "b" | map { … }
+}
+```
+
+## Legacy (desugar only — Java and JS)
+
+| Legacy text | Becomes |
+|---|---|
+| `find X with annotation @Y` | `find X` + `when annotation @Y on X` |
+| `from annotation on elem @Y` | `from annotation @Y on elem` |
+| `from decorator on elem Name` | `from decorator Name on elem` |
+| `find method Owner.x` | `find call Owner.x` |
+
+## Not in public g4
+
+- `with` keyword (removed)
+- Java-only exclusive find productions beyond the surface above
